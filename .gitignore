@@ -50,3 +50,10 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+CppProperties.json
+.vs/VSWorkspaceState.json
+.vs/slnx.sqlite
+.vs/sig-games/v16/ipch/AutoPCH/a9d50a67cae2a09f/MAIN.ipch
+.vs/sig-games/v16/Browse.VC.db
+.vs/sig-games/v16/.suo
+.vs/ProjectSettings.json

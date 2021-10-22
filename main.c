@@ -4,6 +4,15 @@ int main(void){
     telaSobre();
     telaPrincipal();
     telaEquipe();     
+    
+    printf("=========================================================================\n");
+    telaListar();
+    telaAdicionar();
+    telaRemover();
+    telaAlugar();
+    telaConsulta();
+
+    return 0;
 }
 
 /*Funcionalidades: 
@@ -17,10 +26,10 @@ Consultar jogos alugados
 */
 
 void telaPrincipal(void){
-    printf("----------------------------------------------------\n");
+    //printf("----------------------------------------------------\n");
     printf("SIG-GAMES | Alugue o seu jogo!\n");
     printf("Escolha uma opcao:\n1. Listar Jogos\n2. Adicionar Jogo\n3. Remover Jogo\n4. Alugar Jogo\n5. Consultar Jogos Alugados\n6. Sobre\n7. Equipe\n0. Sair\n");
-    printf("----------------------------------------------------\n");
+    //printf("----------------------------------------------------\n");
 }
 
 void telaSobre(void){
@@ -53,4 +62,61 @@ void telaEquipe(void){
     printf("  |                E-mail: israel.silva.117@ufrn.edu.br               |  \n");
     printf("  |          Repositorio: https://github.com/manizio/sig-games        |  \n");
     printf("  ---------------------------------------------------------------------  \n");
+}
+
+//PROTÓTIPOS DE TELA SEM ESTRUTURAS DE REPETIÇÃO OU DE DECISÃO
+
+void telaListar(void){
+
+    printf("=== TELA LISTAR ===\n");
+
+    printf("| Jogo 1\n");
+    printf("| Jogo 2\n");
+    printf("| Jogo 3\n");
+    printf("| Jogo 4\n");
+    printf("| Jogo 5\n");
+    printf("| Jogo 6\n\n");
+    
+}
+
+void telaAdicionar(void){
+
+    printf("=== TELA ADICIONAR ===\n");
+
+    printf("Informe o nome do jogo para ser adicionado: \n");
+    printf("Informe o ano em que o jogo foi lancado: \n");
+    printf("De uma breve sinopse do jogo: \n\n");
+
+    //mostrar o jogo adicionado com todos os detalhes na linha seguinte
+}
+
+void telaRemover(void){
+
+    printf("=== TELA REMOVER ===\n");
+
+    printf("Informe o ID do jogo que deseja remover: \n\n");
+
+    //perguntar se o usuário tem certeza que quer remover o jogo ID - NOME
+
+}
+
+void telaAlugar(void){
+    printf("=== TELA ALUGAR ===\n");
+
+    printf("Informe o nome ou ID do jogo que deseja alugar: \n\n");
+    
+    //perguntar se o usuário tem certeza que quer alugar o jogo ID - NOME de DATA DE ALUGAÇÃO até DATA LIMITE
+}
+
+void telaConsulta(void){
+    printf("=== TELA CONSULTAR JOGOS ALUGADOS ===\n");
+
+    printf("Jogos alugados ate [DATA DE HOJE]: \n");
+    
+    printf("| Jogo 1\n");
+    printf("| Jogo 2\n");
+    printf("| Jogo 3\n");      //mostrar data limite dos jogos
+    printf("| Jogo 4\n");
+    printf("| Jogo 5\n");
+    printf("| Jogo 6\n");
 }
