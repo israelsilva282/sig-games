@@ -1,16 +1,26 @@
 #include <stdio.h>
 
+
+void telaSobre(void);
+void telaPrincipal(void);
+void telaEquipe(void);
+void telaAdicionarCliente(void);
+void telaPesquisarCliente(void);
+void telaEditarCliente(void);
+void telaRemoverCliente(void);
+
+
 int main(void){
     telaSobre();
     telaPrincipal();
     telaEquipe();     
     
     printf("=========================================================================\n");
-    telaListar();
-    telaAdicionar();
-    telaRemover();
-    telaAlugar();
-    telaConsulta();
+
+    telaAdicionarCliente();
+    telaPesquisarCliente();
+    telaEditarCliente();
+    telaRemoverCliente();
 
     return 0;
 }
@@ -28,8 +38,10 @@ Consultar jogos alugados
 void telaPrincipal(void){
     //printf("----------------------------------------------------\n");
     printf("SIG-GAMES | Alugue o seu jogo!\n");
-    printf("Escolha uma opcao:\n1. Listar Jogos\n2. Adicionar Jogo\n3. Remover Jogo\n4. Alugar Jogo\n5. Consultar Jogos Alugados\n6. Sobre\n7. Equipe\n0. Sair\n");
+    //printf("Escolha uma opcao:\n1. Listar Jogos\n2. Adicionar Jogo\n3. Remover Jogo\n4. Alugar Jogo\n5. Consultar Jogos Alugados\n6. Sobre\n7. Equipe\n0. Sair\n");
     //printf("----------------------------------------------------\n");
+
+    printf("Escolha uma opcao:\n1. Modulo Cliente\n2. Modulo Funcionário\n3. Modulo Jogo");
 }
 
 void telaSobre(void){
@@ -64,59 +76,32 @@ void telaEquipe(void){
     printf("  ---------------------------------------------------------------------  \n");
 }
 
-//PROTÓTIPOS DE TELA SEM ESTRUTURAS DE REPETIÇÃO OU DE DECISÃO
 
-void telaListar(void){
+void telaCliente(void){
+    printf("SIG-GAMES | Menu Cliente");
+    printf("1. Adicionar Cliente\n2. Pesquisar cliente\n3. Editar Cliente\n4. Remover Cliente");
+}
 
-    printf("=== TELA LISTAR ===\n");
+void telaAdicionarCliente(void){
+    printf("SIG-GAMES | Adicionar Cliente");
+    printf("Nome completo: ");
+    printf("Data de nascimento: ");
+    printf("Endereço: ");
+    printf("Email: ");
+    printf("CPF: ");
+}
 
-    printf("| Jogo 1\n");
-    printf("| Jogo 2\n");
-    printf("| Jogo 3\n");
-    printf("| Jogo 4\n");
-    printf("| Jogo 5\n");
-    printf("| Jogo 6\n\n");
+void telaPesquisarCliente(void){
+    printf("SIG-GAMES | Pesquisar cliente");
+    printf("Informe o CPF do cliente: ");
     
 }
 
-void telaAdicionar(void){
-
-    printf("=== TELA ADICIONAR ===\n");
-
-    printf("Informe o nome do jogo para ser adicionado: \n");
-    printf("Informe o ano em que o jogo foi lancado: \n");
-    printf("De uma breve sinopse do jogo: \n\n");
-
-    //mostrar o jogo adicionado com todos os detalhes na linha seguinte
+void telaEditarCliente(void){
+    printf("SIG-GAMES | Editar cliente");
+    printf("Informe o CPF do cliente: ");
 }
 
-void telaRemover(void){
-
-    printf("=== TELA REMOVER ===\n");
-
-    printf("Informe o ID do jogo que deseja remover: \n\n");
-
-    //perguntar se o usuário tem certeza que quer remover o jogo ID - NOME
-
-}
-
-void telaAlugar(void){
-    printf("=== TELA ALUGAR ===\n");
-
-    printf("Informe o nome ou ID do jogo que deseja alugar: \n\n");
-    
-    //perguntar se o usuário tem certeza que quer alugar o jogo ID - NOME de DATA DE ALUGAÇÃO até DATA LIMITE
-}
-
-void telaConsulta(void){
-    printf("=== TELA CONSULTAR JOGOS ALUGADOS ===\n");
-
-    printf("Jogos alugados ate [DATA DE HOJE]: \n");
-    
-    printf("| Jogo 1\n");
-    printf("| Jogo 2\n");
-    printf("| Jogo 3\n");      //mostrar data limite dos jogos
-    printf("| Jogo 4\n");
-    printf("| Jogo 5\n");
-    printf("| Jogo 6\n");
+void telaRemoverCliente(void){
+    printf("SIG-GAMES | Remover cliente");
 }
