@@ -4,10 +4,22 @@
 void telaSobre(void);
 void telaPrincipal(void);
 void telaEquipe(void);
+
 void telaAdicionarCliente(void);
 void telaPesquisarCliente(void);
 void telaEditarCliente(void);
 void telaRemoverCliente(void);
+
+void telaAdicionarFuncionario(void);
+void telaPesquisarFuncionario(void);
+void telaEditarFuncionario(void);
+void telaRemoverFuncionario(void);
+
+void telaAdicionarJogo(void);
+void telaPesquisarJogo(void);
+void telaListarJogos(void);
+void telaEditarJogo(void);
+void telaRemoverJogo(void);
 
 
 int main(void){
@@ -21,6 +33,21 @@ int main(void){
     telaPesquisarCliente();
     telaEditarCliente();
     telaRemoverCliente();
+
+    printf("=========================================================================\n");
+
+    telaAdicionarFuncionario();
+    telaPesquisarFuncionario();
+    telaEditarFuncionario();
+    telaRemoverFuncionario();
+
+    printf("=========================================================================\n");
+
+    telaAdicionarJogo();
+    telaPesquisarJogo();
+    telaListarJogos();
+    telaEditarJogo();
+    telaRemoverJogo();
 
     return 0;
 }
@@ -41,7 +68,7 @@ void telaPrincipal(void){
     //printf("Escolha uma opcao:\n1. Listar Jogos\n2. Adicionar Jogo\n3. Remover Jogo\n4. Alugar Jogo\n5. Consultar Jogos Alugados\n6. Sobre\n7. Equipe\n0. Sair\n");
     //printf("----------------------------------------------------\n");
 
-    printf("Escolha uma opcao:\n1. Modulo Cliente\n2. Modulo Funcionário\n3. Modulo Jogo");
+    printf("Escolha uma opcao:\n1. Modulo Cliente\n2. Modulo Funcionário\n3. Modulo Jogo\n");
 }
 
 void telaSobre(void){
@@ -79,29 +106,98 @@ void telaEquipe(void){
 
 void telaCliente(void){
     printf("SIG-GAMES | Menu Cliente");
-    printf("1. Adicionar Cliente\n2. Pesquisar cliente\n3. Editar Cliente\n4. Remover Cliente");
+    printf("1. Adicionar Cliente\n2. Pesquisar cliente\n3. Editar Cliente\n4. Remover Cliente\n");
 }
 
 void telaAdicionarCliente(void){
-    printf("SIG-GAMES | Adicionar Cliente");
-    printf("Nome completo: ");
-    printf("Data de nascimento: ");
-    printf("Endereço: ");
-    printf("Email: ");
-    printf("CPF: ");
+    printf("SIG-GAMES | Adicionar Cliente\n");
+    printf("Nome completo: \n");
+    printf("Data de nascimento: \n");
+    printf("Endereco: \n");
+    printf("Email: \n");
+    printf("CPF: \n");
+    printf("Cliente cadastrado.\n");
 }
 
 void telaPesquisarCliente(void){
-    printf("SIG-GAMES | Pesquisar cliente");
-    printf("Informe o CPF do cliente: ");
+    printf("SIG-GAMES | Pesquisar cliente\n");
+    printf("Informe o CPF do cliente: \n");
     
 }
 
 void telaEditarCliente(void){
-    printf("SIG-GAMES | Editar cliente");
-    printf("Informe o CPF do cliente: ");
+    printf("SIG-GAMES | Editar cliente\n");
+    printf("Informe o CPF do cliente: \n");
 }
 
 void telaRemoverCliente(void){
-    printf("SIG-GAMES | Remover cliente");
+    printf("SIG-GAMES | Remover cliente\n");
+    printf("Informe o CPF do cliente: \n");
+}
+
+void telaFuncionario(void){
+    printf("SIG-GAMES | Menu Funcionario");
+    printf("1. Adicionar Funcionario\n2. Pesquisar Funcionario\n3. Editar Funcionario\n4. Remover Funcionario\n");
+}
+
+void telaAdicionarFuncionario(void){
+    printf("SIG-GAMES | Adicionar funcionario\n");
+    printf("Nome completo: \n");
+    printf("Cargo: \n");
+    printf("Data de nascimento \n");
+    printf("Endereco: \n");
+    printf("Email: \n");
+    printf("CPF: \n");
+    printf("Funcionario adicionado.\n");
+}
+
+void telaPesquisarFuncionario(void){
+    printf("SIG-GAMES | Pesquisar funcionario\n");
+    printf("Informe o CPF do funcionario: \n");
+}
+
+void telaEditarFuncionario(void){
+    printf("SIG-GAMES | Editar funcionario\n");
+    printf("Informe o CPF do funcionario: \n");
+}
+
+void telaRemoverFuncionario(void){
+    printf("SIG-GAMES | Remover funcionario\n");
+    printf("Informe o CPF do funcionario: \n");
+}
+
+void telaJogo(void){
+    printf("SIG-GAMES | Menu Jogo\n");
+    printf("1. Adicionar Jogo\n2. Pesquisar jogo\n3. Listar jogo\n4. Editar jogo\n5. Remover jogo\n");
+}
+
+void telaAdicionarJogo(void){
+    printf("SIG-GAMES | Adicionar jogo\n");
+    printf("Nome: \n");
+    printf("Data de lancamento: \n");
+    printf("Resumo: \n");
+    printf("ID: \n");
+    printf("Jogo adicionado.\n");
+}
+
+void telaPesquisarJogo(void){
+    printf("SIG-GAMES | Pesquisar jogo\n");
+    printf("Informe o ID/Nome do jogo: \n");
+}
+
+void telaListarJogos(void){
+    printf("SIG-GAMES | Listar jogos\n");
+    //1. jogo1
+    //2. jogo2
+    //3. jogo3
+}
+
+void telaEditarJogo(void){
+    printf("SIG-GAMES | Editar jogo\n");
+    printf("Informe o ID/Nome do jogo: \n");
+}
+
+void telaRemoverJogo(void){
+    printf("SIG-GAMES | Remover jogo\n");
+    printf("Informe o ID/Nome do jogo: \n");
 }
