@@ -176,12 +176,12 @@ void telaRemoverCliente(void){
 }
 
 void telaFuncionario(void){
-    char esc;
+    int esc;
 
 
     printf("SIG-GAMES | Menu Funcionario");
     printf("1. Adicionar Funcionario\n2. Pesquisar Funcionario\n3. Editar Funcionario\n4. Remover Funcionario\n");
-    scanf("%c", esc);
+    scanf("%d", esc);
     getchar();
 
 }
@@ -201,7 +201,7 @@ void telaAdicionarFuncionario(void){
     printf("Cargo: ");
     scanf("%[A-Z a-z]", cargo);
     getchar();
-    printf("Data de nascimento ");
+    printf("Data de nascimento: ");
     scanf("%[0-9/]", dataNasc);
     getchar();
     printf("Endereco: ");
@@ -217,37 +217,67 @@ void telaAdicionarFuncionario(void){
 }
 
 void telaPesquisarFuncionario(void){
+    char cpf[12];
+
     printf("SIG-GAMES | Pesquisar funcionario\n");
     printf("Informe o CPF do funcionario: \n");
 }
 
 void telaEditarFuncionario(void){
+    char cpf[12];
+
     printf("SIG-GAMES | Editar funcionario\n");
-    printf("Informe o CPF do funcionario: \n");
+    printf("Informe o CPF do funcionario: ");
+    scanf("%[0-9.-]", cpf);
+    getchar();
 }
 
 void telaRemoverFuncionario(void){
+    char cpf[12];
+
     printf("SIG-GAMES | Remover funcionario\n");
-    printf("Informe o CPF do funcionario: \n");
+    printf("Informe o CPF do funcionario: ");
+    scanf("%[0-9.-]", cpf);
+    getchar();
 }
 
 void telaJogo(void){
+    int esc;
+
     printf("SIG-GAMES | Menu Jogo\n");
     printf("1. Adicionar Jogo\n2. Pesquisar jogo\n3. Listar jogo\n4. Editar jogo\n5. Remover jogo\n");
+    scanf("%d", &esc);
+    getchar();
 }
 
 void telaAdicionarJogo(void){
+    char nome[52];
+    char dataLanc[11];
+    char resumo[2048];
+    unsigned int id;
+
     printf("SIG-GAMES | Adicionar jogo\n");
-    printf("Nome: \n");
-    printf("Data de lancamento: \n");
-    printf("Resumo: \n");
-    printf("ID: \n");
+    printf("Nome: ");
+    scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕÀ a-zçáéíóúâêôãõà]", nome);
+    getchar();
+    printf("Data de lancamento: ");
+    scanf("%[0-9/]", dataLanc);
+    getchar();
+    printf("Resumo: ");
+    scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕ a-zçáéíóúâàêôãõ0-9./-]", resumo);
+    getchar();
+    printf("ID: ");
+    scanf("%d", &id);
+    getchar();
     printf("Jogo adicionado.\n");
 }
 
 void telaPesquisarJogo(void){
+    unsigned int id;
     printf("SIG-GAMES | Pesquisar jogo\n");
-    printf("Informe o ID/Nome do jogo: \n");
+    printf("Informe o ID/Nome do jogo: ");
+    scanf("%d", &id);
+    getchar();
 }
 
 void telaListarJogos(void){
@@ -258,11 +288,20 @@ void telaListarJogos(void){
 }
 
 void telaEditarJogo(void){
+    unsigned int id;
+
     printf("SIG-GAMES | Editar jogo\n");
-    printf("Informe o ID/Nome do jogo: \n");
+    printf("Informe o ID/Nome do jogo: ");
+    scanf("%d", &id);
+    getchar();
 }
 
 void telaRemoverJogo(void){
+    unsigned int id;
+
     printf("SIG-GAMES | Remover jogo\n");
-    printf("Informe o ID/Nome do jogo: \n");
+    printf("Informe o ID/Nome do jogo: ");
+    scanf("%d", &id);
+    getchar();
 }
+
