@@ -63,12 +63,18 @@ Consultar jogos alugados
 */
 
 void telaPrincipal(void){
+    char esc;
+
     //printf("----------------------------------------------------\n");
     printf("SIG-GAMES | Alugue o seu jogo!\n");
     //printf("Escolha uma opcao:\n1. Listar Jogos\n2. Adicionar Jogo\n3. Remover Jogo\n4. Alugar Jogo\n5. Consultar Jogos Alugados\n6. Sobre\n7. Equipe\n0. Sair\n");
     //printf("----------------------------------------------------\n");
 
-    printf("Escolha uma opcao:\n1. Modulo Cliente\n2. Modulo Funcionário\n3. Modulo Jogo\n");
+    printf("Escolha uma opcao:\n1. Modulo Cliente\n2. Modulo Funcionario\n3. Modulo Jogo\n");
+    scanf("%c", &esc);
+    getchar();
+
+
 }
 
 void telaSobre(void){
@@ -105,49 +111,108 @@ void telaEquipe(void){
 
 
 void telaCliente(void){
+    char esc;
     printf("SIG-GAMES | Menu Cliente");
     printf("1. Adicionar Cliente\n2. Pesquisar cliente\n3. Editar Cliente\n4. Remover Cliente\n");
+    scanf("%c", &esc);
+    getchar();
 }
 
 void telaAdicionarCliente(void){
+    char nome[52];
+    char dataNasc[11];
+    char email[52];
+    char cpf[12];
+    char endereco[52];
+
+
     printf("SIG-GAMES | Adicionar Cliente\n");
-    printf("Nome completo: \n");
-    printf("Data de nascimento: \n");
-    printf("Endereco: \n");
-    printf("Email: \n");
-    printf("CPF: \n");
+    printf("Nome completo: ");
+    scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕÀ a-zçáéíóúâêôãõà]", nome);
+    getchar();
+    printf("Data de nascimento: ");
+    scanf("%[0-9/]", dataNasc);
+    getchar();
+    printf("Endereco: ");
+    scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕ a-zçáéíóúâêôãõ0-9./-]", endereco);
+    getchar();
+    printf("Email: ");
+    scanf("%[A-Za-z@._]", email);
+    getchar();
+    printf("CPF: ");
+    scanf("%[0-9.-]", cpf);
+    getchar();
     printf("Cliente cadastrado.\n");
 }
 
 void telaPesquisarCliente(void){
+    char cpf[12];
+
+
     printf("SIG-GAMES | Pesquisar cliente\n");
-    printf("Informe o CPF do cliente: \n");
+    printf("Informe o CPF do cliente: ");
+    scanf("%[0-9.-]", cpf);
+    getchar();
     
 }
 
 void telaEditarCliente(void){
+    char cpf[12];
+    
     printf("SIG-GAMES | Editar cliente\n");
-    printf("Informe o CPF do cliente: \n");
+    printf("Informe o CPF do cliente: ");
+    scanf("%[0-9.-]", cpf);
+    getchar();
 }
 
 void telaRemoverCliente(void){
+    char cpf[12];
+
+
     printf("SIG-GAMES | Remover cliente\n");
-    printf("Informe o CPF do cliente: \n");
+    printf("Informe o CPF do cliente: ");
+    scanf("%[0-9.-]", cpf);
+    getchar();
 }
 
 void telaFuncionario(void){
+    char esc;
+
+
     printf("SIG-GAMES | Menu Funcionario");
     printf("1. Adicionar Funcionario\n2. Pesquisar Funcionario\n3. Editar Funcionario\n4. Remover Funcionario\n");
+    scanf("%c", esc);
+    getchar();
+
 }
 
 void telaAdicionarFuncionario(void){
+    char nome[52];
+    char cargo[34];
+    char dataNasc[11];
+    char email[52];
+    char cpf[12];
+    char endereco[52];
+
     printf("SIG-GAMES | Adicionar funcionario\n");
-    printf("Nome completo: \n");
-    printf("Cargo: \n");
-    printf("Data de nascimento \n");
-    printf("Endereco: \n");
-    printf("Email: \n");
-    printf("CPF: \n");
+    printf("Nome completo: ");
+    scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕÀ a-zçáéíóúâêôãõà]", nome);
+    getchar();
+    printf("Cargo: ");
+    scanf("%[A-Z a-z]", cargo);
+    getchar();
+    printf("Data de nascimento ");
+    scanf("%[0-9/]", dataNasc);
+    getchar();
+    printf("Endereco: ");
+    scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕ a-zçáéíóúâêôãõ0-9./-]", endereco);
+    getchar();
+    printf("Email: ");
+    scanf("%[A-Za-z@._]", email);
+    getchar();
+    printf("CPF: ");
+    scanf("%[0-9.-]", cpf);
+    getchar();
     printf("Funcionario adicionado.\n");
 }
 
