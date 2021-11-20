@@ -2,19 +2,22 @@
 
 
 void telaSobre(void);
-void telaPrincipal(void);
+char telaPrincipal(void);
 void telaEquipe(void);
 
+void telaCliente(void);
 void telaAdicionarCliente(void);
 void telaPesquisarCliente(void);
 void telaEditarCliente(void);
 void telaRemoverCliente(void);
 
+void telaFuncionario(void);
 void telaAdicionarFuncionario(void);
 void telaPesquisarFuncionario(void);
 void telaEditarFuncionario(void);
 void telaRemoverFuncionario(void);
 
+void telaJogo(void);
 void telaAdicionarJogo(void);
 void telaPesquisarJogo(void);
 void telaListarJogos(void);
@@ -23,6 +26,31 @@ void telaRemoverJogo(void);
 
 
 int main(void){
+    char esc;
+
+    esc = telaPrincipal();
+
+    do{
+        switch(esc){
+            case '1':
+                telaCliente();
+                break;
+            case '2':
+                telaFuncionario();
+                break;
+            case '3':
+                telaJogo();
+                break;
+            case '4':
+                telaSobre();
+                telaEquipe();
+                break;
+        }
+    } while(esc != '0');
+    
+
+
+    /*
     telaSobre();
     telaPrincipal();
     telaEquipe();     
@@ -48,7 +76,7 @@ int main(void){
     telaListarJogos();
     telaEditarJogo();
     telaRemoverJogo();
-
+    */
     return 0;
 }
 
@@ -62,7 +90,7 @@ Consultar jogos alugados
 
 */
 
-void telaPrincipal(void){
+char telaPrincipal(void){
     char esc;
 
     //printf("----------------------------------------------------\n");
@@ -70,9 +98,11 @@ void telaPrincipal(void){
     //printf("Escolha uma opcao:\n1. Listar Jogos\n2. Adicionar Jogo\n3. Remover Jogo\n4. Alugar Jogo\n5. Consultar Jogos Alugados\n6. Sobre\n7. Equipe\n0. Sair\n");
     //printf("----------------------------------------------------\n");
 
-    printf("Escolha uma opcao:\n1. Modulo Cliente\n2. Modulo Funcionario\n3. Modulo Jogo\n");
+    printf("Escolha uma opcao:\n1. Modulo Cliente\n2. Modulo Funcionario\n3. Modulo Jogo\n4. Sobre\n");
     scanf("%c", &esc);
     getchar();
+
+    return esc;
 
 
 }
@@ -109,13 +139,32 @@ void telaEquipe(void){
     printf("  ---------------------------------------------------------------------  \n");
 }
 
-
+//TELAS CLIENTE
 void telaCliente(void){
     char esc;
-    printf("SIG-GAMES | Menu Cliente");
-    printf("1. Adicionar Cliente\n2. Pesquisar cliente\n3. Editar Cliente\n4. Remover Cliente\n");
+    printf("SIG-GAMES | Menu Cliente\n");
+    printf("1. Adicionar Cliente\n2. Pesquisar cliente\n3. Editar Cliente\n4. Remover Cliente\n0. Voltar\n");
     scanf("%c", &esc);
     getchar();
+
+    switch (esc){
+        case '1':
+            telaAdicionarCliente();
+            break;
+        case '2':
+            telaPesquisarCliente();
+            break;
+        case '3':
+            telaEditarCliente();
+            break;
+        case '4':
+            telaRemoverCliente();
+            break;
+        case '0':
+            telaPrincipal();
+            break;
+    }
+
 }
 
 void telaAdicionarCliente(void){
@@ -125,64 +174,105 @@ void telaAdicionarCliente(void){
     char cpf[12];
     char endereco[52];
 
+    char esc;
 
-    printf("SIG-GAMES | Adicionar Cliente\n");
-    printf("Nome completo: ");
-    scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕÀ a-zçáéíóúâêôãõà]", nome);
-    getchar();
-    printf("Data de nascimento: ");
-    scanf("%[0-9/]", dataNasc);
-    getchar();
-    printf("Endereco: ");
-    scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕ a-zçáéíóúâêôãõ0-9./-]", endereco);
-    getchar();
-    printf("Email: ");
-    scanf("%[A-Za-z@._]", email);
-    getchar();
-    printf("CPF: ");
-    scanf("%[0-9.-]", cpf);
-    getchar();
-    printf("Cliente cadastrado.\n");
+    do{
+        printf("SIG-GAMES | Adicionar Cliente\n");
+        printf("Nome completo: ");
+        scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕÀ a-zçáéíóúâêôãõà]", nome);
+        getchar();
+        printf("Data de nascimento: ");
+        scanf("%[0-9/]", dataNasc);
+        getchar();
+        printf("Endereco: ");
+        scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕ a-zçáéíóúâêôãõ0-9./-]", endereco);
+        getchar();
+        printf("Email: ");
+        scanf("%[A-Za-z@._]", email);
+        getchar();
+        printf("CPF: ");
+        scanf("%[0-9.-]", cpf);
+        getchar();
+        printf("Cliente cadastrado.\n");
+        printf("1. Cadastrar outro cliente\n0. Voltar\n");
+        scanf("%c", &esc);
+        getchar();
+    } while(esc != '0');
+
+    telaCliente();
+    
 }
 
 void telaPesquisarCliente(void){
     char cpf[12];
 
+    char esc;
 
-    printf("SIG-GAMES | Pesquisar cliente\n");
-    printf("Informe o CPF do cliente: ");
-    scanf("%[0-9.-]", cpf);
-    getchar();
+    do{
+        printf("SIG-GAMES | Pesquisar cliente\n");
+        printf("Informe o CPF do cliente: ");
+        scanf("%[0-9.-]", cpf);
+        getchar();
+
+        printf("1. Pesquisar outro cliente\n0. Voltar\n");
+        scanf("%c", &esc);
+        getchar();
+    } while(esc != '0');
+
+    telaCliente();   
     
 }
 
 void telaEditarCliente(void){
     char cpf[12];
     
-    printf("SIG-GAMES | Editar cliente\n");
-    printf("Informe o CPF do cliente: ");
-    scanf("%[0-9.-]", cpf);
-    getchar();
+    char esc;
+
+    do{
+        printf("SIG-GAMES | Editar cliente\n");
+        printf("Informe o CPF do cliente: ");
+        scanf("%[0-9.-]", cpf);
+        getchar();
+
+        printf("1. Editar outro cliente\n0. Voltar\n");
+        scanf("%c", &esc);
+        getchar();
+    } while(esc != '0');
+
+    telaCliente();
 }
 
 void telaRemoverCliente(void){
     char cpf[12];
 
+    char esc;
 
-    printf("SIG-GAMES | Remover cliente\n");
-    printf("Informe o CPF do cliente: ");
-    scanf("%[0-9.-]", cpf);
-    getchar();
+    do{
+        printf("SIG-GAMES | Remover cliente\n");
+        printf("Informe o CPF do cliente: ");
+        scanf("%[0-9.-]", cpf);
+        getchar();
+
+        printf("1. Remover outro cliente\n0. Voltar\n");
+        scanf("%c", &esc);
+        getchar();
+    } while(esc != '0');
+
+    telaCliente();
 }
 
+
+//TELAS FUNCIONARIO
 void telaFuncionario(void){
     int esc;
 
 
-    printf("SIG-GAMES | Menu Funcionario");
+    printf("SIG-GAMES | Menu Funcionario\n");
     printf("1. Adicionar Funcionario\n2. Pesquisar Funcionario\n3. Editar Funcionario\n4. Remover Funcionario\n");
     scanf("%d", esc);
     getchar();
+
+    return esc;
 
 }
 
@@ -241,6 +331,7 @@ void telaRemoverFuncionario(void){
     getchar();
 }
 
+//TELAS JOGO
 void telaJogo(void){
     int esc;
 
@@ -248,6 +339,8 @@ void telaJogo(void){
     printf("1. Adicionar Jogo\n2. Pesquisar jogo\n3. Listar jogo\n4. Editar jogo\n5. Remover jogo\n");
     scanf("%d", &esc);
     getchar();
+
+    return esc;
 }
 
 void telaAdicionarJogo(void){
