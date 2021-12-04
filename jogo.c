@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "jogo.h"
-
+#include "validacao.h"
 void telaJogo(void){
     char esc;
 
@@ -44,7 +44,9 @@ void telaJogo(void){
 
 void telaAdicionarJogo(void){
     char nome[100];
-    char dataLanc[11];
+    int diaLanc;
+    int mesLanc;
+    int anoLanc;
     char resumo[2048];
     unsigned int id;
     char esc;
@@ -57,8 +59,15 @@ void telaAdicionarJogo(void){
         printf("                     Nome: ");
         scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕÀ a-zçáéíóúâêôãõà]", nome);
         getchar();
-        printf("                     Data de lancamento (DD/MM/AA): ");
-        scanf("%[0-9/]", dataLanc);
+        printf("                     Data de lancamento (DD/MM/AA)\n");
+        printf("                      Dia: ");
+        scanf("%d", &diaLanc);
+        getchar();
+        printf("                      Mes: ");
+        scanf("%d", &mesLanc);
+        getchar();
+        printf("                      Ano: ");
+        scanf("%d", &anoLanc);
         getchar();
         printf("                     Resumo: ");
         scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕ a-zçáéíóúâàêôãõ0-9./-]", resumo);
@@ -66,15 +75,29 @@ void telaAdicionarJogo(void){
         printf("                     ID: ");
         scanf("%d", &id);
         getchar();
-        printf("                     Jogo adicionado.\n");
 
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("  |                     1. Adicionar outro jogo                       |  \n");
-        printf("  |                     0. Voltar                                     |  \n");
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("                     Digite a opcao desejada: ");
-        scanf("%c", &esc);
-        getchar();
+        if(!checkData(anoLanc, mesLanc, diaLanc)){
+            if(!checkData(anoLanc, mesLanc, diaLanc)){
+                printf("                       *Data Invalida.\n");
+            }
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                    1. Tentar novamente                            |  \n");
+            printf("  |                    0. Voltar                                      |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+        } else{
+            printf("                     Jogo adicionado.\n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                     1. Adicionar outro jogo                       |  \n");
+            printf("  |                     0. Voltar                                     |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+        }
+        
     } while(esc != '0');
     telaJogo();
 }

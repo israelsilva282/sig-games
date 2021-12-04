@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "validacao.h"
 #include "cliente.h"
 
 
@@ -40,7 +40,9 @@ void telaCliente(void){
 
 void telaAdicionarCliente(void){
     char nome[100];
-    char dataNasc[11];
+    int diaNasc;
+    int mesNasc;
+    int anoNasc;
     char email[100];
     char cpf[12];
     char endereco[100];
@@ -54,9 +56,16 @@ void telaAdicionarCliente(void){
         printf("                     Nome completo: ");
         scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕÀ a-zçáéíóúâêôãõà]", nome);
         getchar();
-        printf("                     Data de nascimento (DD/MM/AA): ");
-        scanf("%[0-9/]", dataNasc);
+        printf("                     Dia de nascimento: ");
+        scanf("%d", &diaNasc);
         getchar();
+        printf("                     Mes de nascimento: ");
+        scanf("%d", &mesNasc);
+        getchar();
+        printf("                     Ano de nascimento: ");
+        scanf("%d", &anoNasc);
+        getchar();
+        
         printf("                     Endereco: ");
         scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕ a-zçáéíóúâêôãõ0-9./-]", endereco);
         getchar();
@@ -64,16 +73,36 @@ void telaAdicionarCliente(void){
         scanf("%[A-Za-z@._]", email);
         getchar();
         printf("                     CPF (Apenas Numeros): ");
-        scanf("%[0-9.-]", cpf);
+        scanf("%[0-9]", cpf);
         getchar();
-        printf("                     Cliente cadastrado.");
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("  |                    1. Cadastrar outro cliente                     |  \n");
-        printf("  |                    0. Voltar                                      |  \n");
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("                     Digite a opcao desejada: ");
-        scanf("%c", &esc);
-        getchar();
+        if(!checkData(anoNasc, mesNasc, diaNasc) || !checkCPF(cpf)){
+            if(!checkData(anoNasc, mesNasc, diaNasc)){
+                printf("                       *Data Invalida.\n");
+            }
+            if(!checkCPF(cpf)){
+                printf("                       *CPF Invalido.\n");
+            }
+            if (!checkEmail(email)){
+                printf("                       *Email Invalido.\n");
+            }
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                    1. Tentar novamente                            |  \n");
+            printf("  |                    0. Voltar                                      |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+        } else {
+            printf("                     Cliente cadastrado.\n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                    1. Cadastrar outro cliente                     |  \n");
+            printf("  |                    0. Voltar                                      |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+        } 
+       
     } while(esc != '0');
     telaCliente();
 }

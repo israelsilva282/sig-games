@@ -1,0 +1,1 @@
+int procurarChar(char *, char);
