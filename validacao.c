@@ -46,7 +46,8 @@ int checkCPF(char *cpf){
 
 int checkEmail(char *email){
     int achou = procurarChar(email, '@');
-    if (strlen(email) <= 100){
+    int tam = strlen(email);
+    if (tam <= 200){
         if (achou == 0 || achou > 1){
             return 0;
         } else {
@@ -56,4 +57,28 @@ int checkEmail(char *email){
         return 0;
     }
     
+}
+
+int checkNome(char *nome){
+    if (strlen(nome) <= 255){
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+int checkEndereco(char *endereco){
+    if (strlen(endereco) <= 255){
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+int checkResumo(char *resumo){
+    if (strlen(resumo) <= 2048){
+        return 1;
+    } else {
+        return 0;
+    }
 }

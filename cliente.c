@@ -43,7 +43,7 @@ void telaAdicionarCliente(void){
     int diaNasc;
     int mesNasc;
     int anoNasc;
-    char email[100];
+    char email[200];
     char cpf[12];
     char endereco[100];
     char esc;
@@ -75,16 +75,23 @@ void telaAdicionarCliente(void){
         printf("                     CPF (Apenas Numeros): ");
         scanf("%[0-9]", cpf);
         getchar();
-        if(!checkData(anoNasc, mesNasc, diaNasc) || !checkCPF(cpf)){
+        if(!checkData(anoNasc, mesNasc, diaNasc) || !checkCPF(cpf) || !checkEmail(email) || !checkNome(nome) || !checkEndereco(endereco)){
+            if(!checkNome(nome)){
+                printf("                       *Nome Invalido");
+            }
+            if(!checkEndereco(endereco)){
+                printf("                       *Endereco Invalido");
+            }
             if(!checkData(anoNasc, mesNasc, diaNasc)){
                 printf("                       *Data Invalida.\n");
-            }
-            if(!checkCPF(cpf)){
-                printf("                       *CPF Invalido.\n");
             }
             if (!checkEmail(email)){
                 printf("                       *Email Invalido.\n");
             }
+            if(!checkCPF(cpf)){
+                printf("                       *CPF Invalido.\n");
+            }
+            
             printf("  ---------------------------------------------------------------------  \n");
             printf("  |                    1. Tentar novamente                            |  \n");
             printf("  |                    0. Voltar                                      |  \n");
@@ -120,13 +127,26 @@ void telaPesquisarCliente(void){
         scanf("%[0-9.-]", cpf);
         getchar();
 
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("  |                     1. Pesquisar outro cliente                    |  \n");
-        printf("  |                     0. Voltar                                     |  \n");
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("                     Digite a opcao desejada: ");
-        scanf("%c", &esc);
-        getchar();
+        if(!checkCPF(cpf)){
+            if(!checkCPF(cpf)){
+                printf("                       *CPF Invalido.\n");
+            }
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                    1. Tentar novamente                            |  \n");
+            printf("  |                    0. Voltar                                      |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+        } else {
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                     1. Pesquisar outro cliente                    |  \n");
+            printf("  |                     0. Voltar                                     |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+        }
     } while(esc != '0');
     telaCliente();   
 }
@@ -143,14 +163,26 @@ void telaEditarCliente(void){
         printf("                     Informe o CPF do cliente : ");
         scanf("%[0-9.-]", cpf);
         getchar();
-        
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("  |                      1. Editar outro cliente                      |  \n");
-        printf("  |                      0. Voltar                                    |  \n");
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("                     Digite a opcao desejada: ");
-        scanf("%c", &esc);
-        getchar();
+         if(!checkCPF(cpf)){
+            if(!checkCPF(cpf)){
+                printf("                       *CPF Invalido.\n");
+            }
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                    1. Tentar novamente                            |  \n");
+            printf("  |                    0. Voltar                                      |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+        } else { 
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                      1. Editar outro cliente                      |  \n");
+            printf("  |                      0. Voltar                                    |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+        }
     } while(esc != '0');
 
     telaCliente();
@@ -169,14 +201,26 @@ void telaRemoverCliente(void){
         scanf("%[0-9.-]", cpf);
         getchar();
         printf("                     Cliente removido.");
-
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("  |                       1. Remover outro cliente                    |  \n");
-        printf("  |                       0. Voltar                                   |  \n");
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("                     Digite a opcao desejada: ");
-        scanf("%c", &esc);
-        getchar();
+         if(!checkCPF(cpf)){
+            if(!checkCPF(cpf)){
+                printf("                       *CPF Invalido.\n");
+            }
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                    1. Tentar novamente                            |  \n");
+            printf("  |                    0. Voltar                                      |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+        } else {
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                       1. Remover outro cliente                    |  \n");
+            printf("  |                       0. Voltar                                   |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+        }
     } while(esc != '0');
     telaCliente();
 }

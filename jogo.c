@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include "jogo.h"
 #include "validacao.h"
+
+//As funções de validação neste módulo só funcionará quando já possuir armazenamento.
 void telaJogo(void){
     char esc;
 
@@ -76,10 +78,17 @@ void telaAdicionarJogo(void){
         scanf("%d", &id);
         getchar();
 
-        if(!checkData(anoLanc, mesLanc, diaLanc)){
+        if(!checkData(anoLanc, mesLanc, diaLanc) || !checkNome(nome) || !checkResumo(resumo)){
             if(!checkData(anoLanc, mesLanc, diaLanc)){
                 printf("                       *Data Invalida.\n");
             }
+            if(!checkNome(nome)){
+                printf("                       *Nome Invalido.\n");
+            }
+            if(!checkResumo(resumo)){
+                printf("                       *Resumo Invalido.\n");
+            }
+            //checkID só funcionará quando já possuir armazenamento
             printf("  ---------------------------------------------------------------------  \n");
             printf("  |                    1. Tentar novamente                            |  \n");
             printf("  |                    0. Voltar                                      |  \n");
