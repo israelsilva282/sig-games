@@ -1,25 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "validacao.h"
 #include "cliente.h"
 
 
 void telaCliente(void){
     char esc;
-
-    system("clear||cls");
-    printf("  ---------------------------------------------------------------------  \n");
-    printf("  |                      SIG-GAMES | Menu Cliente                     |  \n");
-    printf("  ---------------------------------------------------------------------  \n");
-    printf("  |                        1. Adicionar Cliente                       |  \n");
-    printf("  |                        2. Pesquisar cliente                       |  \n");
-    printf("  |                        3. Editar Cliente                          |  \n");
-    printf("  |                        4. Remover Cliente                         |  \n");
-    printf("  |                        0. Voltar                                  |  \n");
-    printf("  ---------------------------------------------------------------------  \n");
-    printf("                           Digite a opcao desejada: ");
-    scanf("%c", &esc);
-    getchar();
+    do{
+        system("clear||cls");
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("  |                      SIG-GAMES | Menu Cliente                     |  \n");
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("  |                        1. Adicionar Cliente                       |  \n");
+        printf("  |                        2. Pesquisar cliente                       |  \n");
+        printf("  |                        3. Editar Cliente                          |  \n");
+        printf("  |                        4. Remover Cliente                         |  \n");
+        printf("  |                        0. Voltar                                  |  \n");
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("                           Digite a opcao desejada: ");
+        scanf("%c", &esc);
+        getchar();
+    } while(!checkDigit(esc));
+    
     switch (esc){
         case '1':
             telaAdicionarCliente();
@@ -39,13 +42,13 @@ void telaCliente(void){
 }
 
 void telaAdicionarCliente(void){
-    char nome[100];
+    char linha[256];
+    int tam;
+    char *nome, *email, *endereco;
     int diaNasc;
     int mesNasc;
     int anoNasc;
-    char email[200];
     char cpf[12];
-    char endereco[100];
     char esc;
 
     do{
@@ -54,7 +57,10 @@ void telaAdicionarCliente(void){
         printf("  |                    SIG-GAMES | Adicionar Cliente                  |  \n");
         printf("  ---------------------------------------------------------------------  \n");
         printf("                     Nome completo: ");
-        scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕÀ a-zçáéíóúâêôãõà]", nome);
+        scanf(" %255[^\n]", linha);
+        tam =  strlen(linha);
+        nome = (char*) malloc(tam+1);
+        strcpy(nome, linha);
         getchar();
         printf("                     Dia de nascimento: ");
         scanf("%d", &diaNasc);
@@ -65,22 +71,27 @@ void telaAdicionarCliente(void){
         printf("                     Ano de nascimento: ");
         scanf("%d", &anoNasc);
         getchar();
-        
         printf("                     Endereco: ");
-        scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕ a-zçáéíóúâêôãõ0-9./-]", endereco);
+        scanf(" %255[^\n]", linha);
+        tam =  strlen(linha);
+        endereco = (char *) malloc(tam+1);
+        strcpy(endereco, linha);
         getchar();
         printf("                     Email: ");
-        scanf("%[A-Za-z@._]", email);
+        scanf(" %255[^\n]", linha);
+        tam =  strlen(linha);
+        email = (char *) malloc(tam+1);
+        strcpy(email, linha);
         getchar();
         printf("                     CPF (Apenas Numeros): ");
         scanf("%[0-9]", cpf);
         getchar();
         if(!checkData(anoNasc, mesNasc, diaNasc) || !checkCPF(cpf) || !checkEmail(email) || !checkNome(nome) || !checkEndereco(endereco)){
             if(!checkNome(nome)){
-                printf("                       *Nome Invalido");
+                printf("                       *Nome Invalido\n");
             }
             if(!checkEndereco(endereco)){
-                printf("                       *Endereco Invalido");
+                printf("                       *Endereco Invalido\n");
             }
             if(!checkData(anoNasc, mesNasc, diaNasc)){
                 printf("                       *Data Invalida.\n");
@@ -91,23 +102,34 @@ void telaAdicionarCliente(void){
             if(!checkCPF(cpf)){
                 printf("                       *CPF Invalido.\n");
             }
+            do{
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Tentar novamente                            |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
             
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Tentar novamente                            |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            free(nome);
+            free(email);
+            free(endereco);
         } else {
-            printf("                     Cliente cadastrado.\n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Cadastrar outro cliente                     |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            do{
+                printf("                     Cliente cadastrado.\n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Cadastrar outro cliente                     |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
+            
+            free(nome);
+            free(email);
+            free(endereco);
         } 
        
     } while(esc != '0');
@@ -128,24 +150,28 @@ void telaPesquisarCliente(void){
         getchar();
 
         if(!checkCPF(cpf)){
-            if(!checkCPF(cpf)){
+            do{
                 printf("                       *CPF Invalido.\n");
-            }
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Tentar novamente                            |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Tentar novamente                            |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
+            
         } else {
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                     1. Pesquisar outro cliente                    |  \n");
-            printf("  |                     0. Voltar                                     |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            do{
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                     1. Pesquisar outro cliente                    |  \n");
+                printf("  |                     0. Voltar                                     |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
+            
         }
     } while(esc != '0');
     telaCliente();   
@@ -164,24 +190,28 @@ void telaEditarCliente(void){
         scanf("%[0-9.-]", cpf);
         getchar();
          if(!checkCPF(cpf)){
-            if(!checkCPF(cpf)){
+            do{
                 printf("                       *CPF Invalido.\n");
-            }
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Tentar novamente                            |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Tentar novamente                            |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
+           
         } else { 
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                      1. Editar outro cliente                      |  \n");
-            printf("  |                      0. Voltar                                    |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            do{
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                      1. Editar outro cliente                      |  \n");
+                printf("  |                      0. Voltar                                    |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
+            
         }
     } while(esc != '0');
 
@@ -202,24 +232,28 @@ void telaRemoverCliente(void){
         getchar();
         printf("                     Cliente removido.");
          if(!checkCPF(cpf)){
-            if(!checkCPF(cpf)){
+            do{
                 printf("                       *CPF Invalido.\n");
-            }
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Tentar novamente                            |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Tentar novamente                            |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
+           
         } else {
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                       1. Remover outro cliente                    |  \n");
-            printf("  |                       0. Voltar                                   |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            do{
+                 printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                       1. Remover outro cliente                    |  \n");
+                printf("  |                       0. Voltar                                   |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
+           
         }
     } while(esc != '0');
     telaCliente();

@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "funcionario.h"
 #include "validacao.h"
 
 void telaFuncionario(void){
     char esc;
-
+    
     system("clear||cls");
     printf("  ---------------------------------------------------------------------  \n");
     printf("  |                    SIG-GAMES | Menu Funcionario                   |  \n");
@@ -38,14 +39,15 @@ void telaFuncionario(void){
 }
 
 void telaAdicionarFuncionario(void){
-    char nome[100];
-    char cargo[34];
+    char linha[256];
+    int tam;
+    char *nome, *cargo, *email, *endereco;
+
     int diaNasc;
     int mesNasc;
     int anoNasc;
-    char email[100];
+
     char cpf[12];
-    char endereco[100];
     char esc;
 
     do{
@@ -54,10 +56,16 @@ void telaAdicionarFuncionario(void){
         printf("  |                    SIG-GAMES | Adicionar funcionario              |  \n");
         printf("  ---------------------------------------------------------------------  \n");
         printf("                     Nome completo: ");
-        scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕÀ a-zçáéíóúâêôãõà]", nome);
+        scanf(" %255[^\n]", linha);
+        tam = strlen(linha);
+        nome = (char *) malloc(tam+1);
+        strcpy(nome, linha);
         getchar();
         printf("                     Cargo: ");
-        scanf("%[A-Z a-z]", cargo);
+        scanf(" %255[^\n]", linha);
+        tam = strlen(linha);
+        cargo = (char *) malloc(tam+1);
+        strcpy(cargo, linha);
         getchar();
         printf("                     Dia de nascimento: ");
         scanf("%d", &diaNasc);
@@ -69,10 +77,16 @@ void telaAdicionarFuncionario(void){
         scanf("%d", &anoNasc);
         getchar();
         printf("                     Endereco: ");
-        scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕ a-zçáéíóúâêôãõ0-9./-]", endereco);
+        scanf(" %255[^\n]", linha);
+        tam = strlen(linha);
+        endereco = (char *) malloc(tam+1);
+        strcpy(endereco, linha);
         getchar();
         printf("                     Email: ");
-        scanf("%[A-Za-z@._]", email);
+        scanf(" %255[^\n]", linha);
+        tam = strlen(linha);
+        email = (char *) malloc(tam+1);
+        strcpy(email, linha);
         getchar();
         printf("                     CPF (Apenas numeros): ");
         scanf("%[0-9]", cpf);
@@ -101,6 +115,10 @@ void telaAdicionarFuncionario(void){
             printf("                     Digite a opcao desejada: ");
             scanf("%c", &esc);
             getchar();
+            free(nome);
+            free(cargo);
+            free(email);
+            free(endereco);
         } else{
             printf("                     Funcionario adicionado.\n");
             printf("  ---------------------------------------------------------------------  \n");
@@ -110,6 +128,10 @@ void telaAdicionarFuncionario(void){
             printf("                     Digite a opcao desejada: ");
             scanf("%c", &esc);
             getchar();
+            free(nome);
+            free(cargo);
+            free(email);
+            free(endereco);
         }
        
     } while(esc != '0');
@@ -129,9 +151,7 @@ void telaPesquisarFuncionario(void){
         scanf("%c", cpf);
         getchar();
          if(!checkCPF(cpf)){
-            if(!checkCPF(cpf)){
-                printf("                       *CPF Invalido.\n");
-            }
+            printf("                       *CPF Invalido.\n");
             printf("  ---------------------------------------------------------------------  \n");
             printf("  |                    1. Tentar novamente                            |  \n");
             printf("  |                    0. Voltar                                      |  \n");
@@ -165,9 +185,7 @@ void telaEditarFuncionario(void){
         scanf("%[0-9.-]", cpf);
         getchar();
         if(!checkCPF(cpf)){
-            if(!checkCPF(cpf)){
-                printf("                       *CPF Invalido.\n");
-            }
+            printf("                       *CPF Invalido.\n");
             printf("  ---------------------------------------------------------------------  \n");
             printf("  |                    1. Tentar novamente                            |  \n");
             printf("  |                    0. Voltar                                      |  \n");
@@ -202,9 +220,7 @@ void telaRemoverFuncionario(void){
         scanf("%[0-9.-]", cpf);
         getchar();
         if(!checkCPF(cpf)){
-            if(!checkCPF(cpf)){
-                printf("                       *CPF Invalido.\n");
-            }
+            printf("                       *CPF Invalido.\n");
             printf("  ---------------------------------------------------------------------  \n");
             printf("  |                    1. Tentar novamente                            |  \n");
             printf("  |                    0. Voltar                                      |  \n");

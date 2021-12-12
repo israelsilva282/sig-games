@@ -46,29 +46,35 @@ int checkCPF(char *cpf){
 
 int checkEmail(char *email){
     int achou = procurarChar(email, '@');
-    int tam = strlen(email);
-    if (tam <= 200){
-        if (achou == 0 || achou > 1){
-            return 0;
-        } else {
-            return 1;
-        }
-    } else{
+    if (achou == 0 || achou > 1){
         return 0;
+    } else {
+        return 1;
     }
-    
 }
+    
+
 
 int checkNome(char *nome){
-    if (strlen(nome) <= 255){
-        return 1;
-    } else {
-        return 0;
+    int check = 0;
+    for(int i = 0; nome[i]!='\0';i++){
+        if ((nome[i] >= 'a' && nome[i] <= 'z') || (nome[i] >= 'A' && nome[i] <= 'Z') || nome[i] == ' '){
+            ;
+        } else {
+            check++;
+        }
     }
+
+    if (check > 0){
+        return 0;
+    } else{
+        return 1;
+    }
+
 }
 
 int checkEndereco(char *endereco){
-    if (strlen(endereco) <= 255){
+    if (strlen(endereco) <= 256){
         return 1;
     } else {
         return 0;
@@ -76,7 +82,16 @@ int checkEndereco(char *endereco){
 }
 
 int checkResumo(char *resumo){
-    if (strlen(resumo) <= 2048){
+    if (strlen(resumo) <= 256){
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+
+int checkDigit(char num){
+    if (num >= '0' && num <= '9'){
         return 1;
     } else {
         return 0;

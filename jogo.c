@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "jogo.h"
 #include "validacao.h"
 
@@ -45,11 +46,12 @@ void telaJogo(void){
 }
 
 void telaAdicionarJogo(void){
-    char nome[100];
+    char linha[256];
+    int tam;
+    char *nome, *resumo;
     int diaLanc;
     int mesLanc;
     int anoLanc;
-    char resumo[2048];
     unsigned int id;
     char esc;
 
@@ -59,7 +61,10 @@ void telaAdicionarJogo(void){
         printf("  |                     SIG-GAMES | Adicionar jogo                    |  \n");
         printf("  ---------------------------------------------------------------------  \n");
         printf("                     Nome: ");
-        scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕÀ a-zçáéíóúâêôãõà]", nome);
+        scanf(" %255[^\n]", linha);
+        tam = strlen(linha);
+        nome = (char *) malloc(tam+1);
+        strcpy(nome,linha);
         getchar();
         printf("                     Data de lancamento (DD/MM/AA)\n");
         printf("                      Dia: ");
@@ -72,18 +77,18 @@ void telaAdicionarJogo(void){
         scanf("%d", &anoLanc);
         getchar();
         printf("                     Resumo: ");
-        scanf("%[A-ZÇÁÉÍÓÚÂÊÔÃÕ a-zçáéíóúâàêôãõ0-9./-]", resumo);
+        scanf(" %255[^\n]", linha);
+        tam = strlen(linha);
+        resumo = (char *) malloc(tam+1);
+        strcpy(resumo,linha);
         getchar();
         printf("                     ID: ");
         scanf("%d", &id);
         getchar();
 
-        if(!checkData(anoLanc, mesLanc, diaLanc) || !checkNome(nome) || !checkResumo(resumo)){
+        if(!checkData(anoLanc, mesLanc, diaLanc) || !checkResumo(resumo)){
             if(!checkData(anoLanc, mesLanc, diaLanc)){
                 printf("                       *Data Invalida.\n");
-            }
-            if(!checkNome(nome)){
-                printf("                       *Nome Invalido.\n");
             }
             if(!checkResumo(resumo)){
                 printf("                       *Resumo Invalido.\n");
@@ -140,9 +145,9 @@ void telaListarJogos(void){
     printf("  ---------------------------------------------------------------------  \n");
     printf("  |                      SIG-GAMES | Listar jogos                     |  \n");
     printf("  ---------------------------------------------------------------------  \n");
-    printf("                         1. jogo1");
-    printf("                         2. jogo2");
-    printf("                         3. jogo3");
+    printf("                         1. jogo1\n");
+    printf("                         2. jogo2\n");
+    printf("                         3. jogo3\n");
     printf("  ---------------------------------------------------------------------  \n");
     printf("  |                     Pressione enter para sair...                  |  \n");
     printf("  ---------------------------------------------------------------------  \n");

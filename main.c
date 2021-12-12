@@ -13,7 +13,6 @@ int main(void){
     
     do{
         esc = telaPrincipal();
-
         switch(esc){
             case '1':
                 telaCliente();
@@ -46,22 +45,24 @@ Consultar jogos alugados
 
 char telaPrincipal(void){
     char esc;
+    do{
+        system("clear||cls");
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("  |                    SIG-GAMES | Alugue o seu jogo!                 |  \n");
+        printf("  ---------------------------------------------------------------------  \n");
 
-    system("clear||cls");
-    printf("  ---------------------------------------------------------------------  \n");
-    printf("  |                    SIG-GAMES | Alugue o seu jogo!                 |  \n");
-    printf("  ---------------------------------------------------------------------  \n");
-
-    printf("  ---------------------------------------------------------------------  \n");
-    printf("  |                        1. Modulo Cliente                          |  \n");
-    printf("  |                        2. Modulo Funcionario                      |  \n");
-    printf("  |                        3. Modulo Jogo                             |  \n");
-    printf("  |                        4. Sobre                                   |  \n");
-    printf("  |                        0. Sair                                    |  \n");
-    printf("  ---------------------------------------------------------------------  \n");
-    printf("                           Digite a opcao desejada: ");
-    scanf("%c", &esc);
-    getchar();
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("  |                        1. Modulo Cliente                          |  \n");
+        printf("  |                        2. Modulo Funcionario                      |  \n");
+        printf("  |                        3. Modulo Jogo                             |  \n");
+        printf("  |                        4. Sobre                                   |  \n");
+        printf("  |                        0. Sair                                    |  \n");
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("                           Digite a opcao desejada: ");
+        scanf("%c", &esc);
+        getchar();
+    } while(!checkDigit(esc));
+    
 
     return esc;
 }
