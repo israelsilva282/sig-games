@@ -5,5 +5,6 @@ int checkEmail(char *);
 int checkNome(char *);
 int checkEndereco(char *);
 int checkResumo(char *);
+int checkCargo(char* );
 
 int checkDigit(char);

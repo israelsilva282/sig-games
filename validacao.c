@@ -97,3 +97,20 @@ int checkDigit(char num){
         return 0;
     }
 }
+
+int checkCargo(char *cargo){
+    int check = 0;
+    for(int i = 0; cargo[i]!='\0';i++){
+        if ((cargo[i] >= 'a' && cargo[i] <= 'z') || (cargo[i] >= 'A' && cargo[i] <= 'Z') || cargo[i] == ' '){
+            ;
+        } else {
+            check++;
+        }
+    }
+
+    if (check > 0){
+        return 0;
+    } else{
+        return 1;
+    }
+}

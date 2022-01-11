@@ -4,6 +4,15 @@
 #include "jogo.h"
 #include "validacao.h"
 
+typedef struct jogo Jogo;
+
+struct jogo{
+    char *nome, *resumo;
+    int diaLanc;
+    int mesLanc;
+    int anoLanc;
+    unsigned int id;
+};
 //As funções de validação neste módulo só funcionará quando já possuir armazenamento.
 void telaJogo(void){
     char esc;
@@ -46,14 +55,11 @@ void telaJogo(void){
 }
 
 void telaAdicionarJogo(void){
+    Jogo* jogo;
     char linha[256];
     int tam;
-    char *nome, *resumo;
-    int diaLanc;
-    int mesLanc;
-    int anoLanc;
-    unsigned int id;
     char esc;
+    jogo = (Jogo*) malloc(sizeof(Jogo));
 
     do{
         system("clear||cls");
@@ -63,53 +69,57 @@ void telaAdicionarJogo(void){
         printf("                     Nome: ");
         scanf(" %255[^\n]", linha);
         tam = strlen(linha);
-        nome = (char *) malloc(tam+1);
-        strcpy(nome,linha);
+        jogo->nome = (char *) malloc(tam+1);
+        strcpy(jogo->nome,linha);
         getchar();
         printf("                     Data de lancamento (DD/MM/AA)\n");
         printf("                      Dia: ");
-        scanf("%d", &diaLanc);
+        scanf("%d", &jogo->diaLanc);
         getchar();
         printf("                      Mes: ");
-        scanf("%d", &mesLanc);
+        scanf("%d", &jogo->mesLanc);
         getchar();
         printf("                      Ano: ");
-        scanf("%d", &anoLanc);
+        scanf("%d", &jogo->anoLanc);
         getchar();
         printf("                     Resumo: ");
         scanf(" %255[^\n]", linha);
         tam = strlen(linha);
-        resumo = (char *) malloc(tam+1);
-        strcpy(resumo,linha);
+        jogo->resumo = (char *) malloc(tam+1);
+        strcpy(jogo->resumo,linha);
         getchar();
         printf("                     ID: ");
-        scanf("%d", &id);
+        scanf("%d", &jogo->id);
         getchar();
 
-        if(!checkData(anoLanc, mesLanc, diaLanc) || !checkResumo(resumo)){
-            if(!checkData(anoLanc, mesLanc, diaLanc)){
+        if(!checkData(jogo->anoLanc, jogo->mesLanc, jogo->diaLanc) || !checkResumo(jogo->resumo)){
+            if(!checkData(jogo->anoLanc, jogo->mesLanc, jogo->diaLanc)){
                 printf("                       *Data Invalida.\n");
             }
-            if(!checkResumo(resumo)){
+            if(!checkResumo(jogo->resumo)){
                 printf("                       *Resumo Invalido.\n");
             }
             //checkID só funcionará quando já possuir armazenamento
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Tentar novamente                            |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            do{
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Tentar novamente                            |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while (!checkDigit(esc));
         } else{
-            printf("                     Jogo adicionado.\n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                     1. Adicionar outro jogo                       |  \n");
-            printf("  |                     0. Voltar                                     |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            do{
+                printf("                     Jogo adicionado.\n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                     1. Adicionar outro jogo                       |  \n");
+                printf("  |                     0. Voltar                                     |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while (!checkDigit(esc));
         }
         
     } while(esc != '0');

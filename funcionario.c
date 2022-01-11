@@ -4,6 +4,16 @@
 #include "funcionario.h"
 #include "validacao.h"
 
+typedef struct funcionario Funcionario;
+
+struct funcionario{
+    char *nome, *cargo, *email, *endereco;
+    int diaNasc;
+    int mesNasc;
+    int anoNasc;
+    char cpf[12];
+};
+
 void telaFuncionario(void){
     char esc;
     
@@ -39,17 +49,11 @@ void telaFuncionario(void){
 }
 
 void telaAdicionarFuncionario(void){
+    Funcionario* fun;
     char linha[256];
     int tam;
-    char *nome, *cargo, *email, *endereco;
-
-    int diaNasc;
-    int mesNasc;
-    int anoNasc;
-
-    char cpf[12];
     char esc;
-
+    fun = (Funcionario*) malloc(sizeof(Funcionario));
     do{
         system("clear||cls");
         printf("  ---------------------------------------------------------------------  \n");
@@ -58,82 +62,89 @@ void telaAdicionarFuncionario(void){
         printf("                     Nome completo: ");
         scanf(" %255[^\n]", linha);
         tam = strlen(linha);
-        nome = (char *) malloc(tam+1);
-        strcpy(nome, linha);
+        fun->nome = (char *) malloc(tam+1);
+        strcpy(fun->nome, linha);
         getchar();
         printf("                     Cargo: ");
         scanf(" %255[^\n]", linha);
         tam = strlen(linha);
-        cargo = (char *) malloc(tam+1);
-        strcpy(cargo, linha);
+        fun->cargo = (char *) malloc(tam+1);
+        strcpy(fun->cargo, linha);
         getchar();
         printf("                     Dia de nascimento: ");
-        scanf("%d", &diaNasc);
+        scanf("%d", &fun->diaNasc);
         getchar();
         printf("                     Mes de nascimento: ");
-        scanf("%d", &mesNasc);
+        scanf("%d", &fun->mesNasc);
         getchar();
         printf("                     Ano de nascimento: ");
-        scanf("%d", &anoNasc);
+        scanf("%d", &fun->anoNasc);
         getchar();
         printf("                     Endereco: ");
         scanf(" %255[^\n]", linha);
         tam = strlen(linha);
-        endereco = (char *) malloc(tam+1);
-        strcpy(endereco, linha);
+        fun->endereco = (char *) malloc(tam+1);
+        strcpy(fun->endereco, linha);
         getchar();
         printf("                     Email: ");
         scanf(" %255[^\n]", linha);
         tam = strlen(linha);
-        email = (char *) malloc(tam+1);
-        strcpy(email, linha);
+        fun->email = (char *) malloc(tam+1);
+        strcpy(fun->email, linha);
         getchar();
         printf("                     CPF (Apenas numeros): ");
-        scanf("%[0-9]", cpf);
+        scanf("%[0-9]", fun->cpf);
         getchar();
 
-        if(!checkData(anoNasc, mesNasc, diaNasc) || !checkCPF(cpf) || !checkEmail(email) || !checkNome(nome) || !checkEndereco(endereco)){
-            if(!checkNome(nome)){
+        if(!checkData(fun->anoNasc, fun->mesNasc, fun->diaNasc) || !checkCPF(fun->cpf) || !checkEmail(fun->email) || !checkNome(fun->nome) || !checkEndereco(fun->endereco) || !checkCargo(fun->cargo)){
+            if(!checkNome(fun->nome)){
                 printf("                       *Nome Invalido");
             }
-            if(!checkEndereco(endereco)){
+            if(!checkEndereco(fun->endereco)){
                 printf("                       *Endereco Invalido");
             }
-            if(!checkData(anoNasc, mesNasc, diaNasc)){
+            if(!checkData(fun->anoNasc, fun->mesNasc, fun->diaNasc)){
                 printf("                       *Data Invalida.\n");
             }
-            if(!checkCPF(cpf)){
+            if(!checkCPF(fun->cpf)){
                 printf("                       *CPF Invalido.\n");
             }
-            if (!checkEmail(email)){
+            if(!checkEmail(fun->email)){
                 printf("                       *Email Invalido.\n");
             }
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Tentar novamente                            |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
-            free(nome);
-            free(cargo);
-            free(email);
-            free(endereco);
+            if(!checkCargo(fun->cargo)){
+                printf("                       *Cargo Invalido");
+            }
+            do{
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Tentar novamente                            |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+                free(fun->nome);
+                free(fun->cargo);
+                free(fun->email);
+                free(fun->endereco);
+            
+            } while (!checkDigit(esc));
         } else{
-            printf("                     Funcionario adicionado.\n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Cadastrar outro funcionario                 |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
-            free(nome);
-            free(cargo);
-            free(email);
-            free(endereco);
+            do{
+                printf("                     Funcionario adicionado.\n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Cadastrar outro funcionario                 |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+                free(fun->nome);
+                free(fun->cargo);
+                free(fun->email);
+                free(fun->endereco);
+            } while (!checkDigit(esc));
         }
-       
     } while(esc != '0');
     telaFuncionario();
 }

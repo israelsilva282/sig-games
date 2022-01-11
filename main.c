@@ -19,7 +19,7 @@ int main(void){
                 break;
             case '2':
                 telaFuncionario();
-                break;
+                break; 
             case '3':
                 telaJogo();
                 break;

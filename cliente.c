@@ -4,6 +4,17 @@
 #include "validacao.h"
 #include "cliente.h"
 
+typedef struct cliente Cliente;
+
+struct cliente{
+    char *nome, *email, *endereco;
+    int diaNasc;
+    int mesNasc;
+    int anoNasc;
+    char cpf[12];
+    char esc;
+};
+
 
 void telaCliente(void){
     char esc;
@@ -42,14 +53,11 @@ void telaCliente(void){
 }
 
 void telaAdicionarCliente(void){
+    Cliente* cl;
+    char esc;
     char linha[256];
     int tam;
-    char *nome, *email, *endereco;
-    int diaNasc;
-    int mesNasc;
-    int anoNasc;
-    char cpf[12];
-    char esc;
+    cl = (Cliente*) malloc(sizeof(Cliente));
 
     do{
         system("clear||cls");
@@ -59,47 +67,47 @@ void telaAdicionarCliente(void){
         printf("                     Nome completo: ");
         scanf(" %255[^\n]", linha);
         tam =  strlen(linha);
-        nome = (char*) malloc(tam+1);
-        strcpy(nome, linha);
+        cl->nome = (char *) malloc(tam+1);
+        strcpy(cl->nome, linha);
         getchar();
         printf("                     Dia de nascimento: ");
-        scanf("%d", &diaNasc);
+        scanf("%d", &cl->diaNasc);
         getchar();
         printf("                     Mes de nascimento: ");
-        scanf("%d", &mesNasc);
+        scanf("%d", &cl->mesNasc);
         getchar();
         printf("                     Ano de nascimento: ");
-        scanf("%d", &anoNasc);
+        scanf("%d", &cl->anoNasc);
         getchar();
         printf("                     Endereco: ");
         scanf(" %255[^\n]", linha);
         tam =  strlen(linha);
-        endereco = (char *) malloc(tam+1);
-        strcpy(endereco, linha);
+        cl->endereco = (char *) malloc(tam+1);
+        strcpy(cl->endereco, linha);
         getchar();
         printf("                     Email: ");
         scanf(" %255[^\n]", linha);
         tam =  strlen(linha);
-        email = (char *) malloc(tam+1);
-        strcpy(email, linha);
+        cl->email = (char *) malloc(tam+1);
+        strcpy(cl->email, linha);
         getchar();
         printf("                     CPF (Apenas Numeros): ");
-        scanf("%[0-9]", cpf);
+        scanf("%[0-9]", cl->cpf);
         getchar();
-        if(!checkData(anoNasc, mesNasc, diaNasc) || !checkCPF(cpf) || !checkEmail(email) || !checkNome(nome) || !checkEndereco(endereco)){
-            if(!checkNome(nome)){
+        if(!checkData(cl->anoNasc, cl->mesNasc, cl->diaNasc) || !checkCPF(cl->cpf) || !checkEmail(cl->email) || !checkNome(cl->nome) || !checkEndereco(cl->endereco)){
+            if(!checkNome(cl->nome)){
                 printf("                       *Nome Invalido\n");
             }
-            if(!checkEndereco(endereco)){
+            if(!checkEndereco(cl->endereco)){
                 printf("                       *Endereco Invalido\n");
             }
-            if(!checkData(anoNasc, mesNasc, diaNasc)){
+            if(!checkData(cl->anoNasc, cl->mesNasc, cl->diaNasc)){
                 printf("                       *Data Invalida.\n");
             }
-            if (!checkEmail(email)){
+            if (!checkEmail(cl->email)){
                 printf("                       *Email Invalido.\n");
             }
-            if(!checkCPF(cpf)){
+            if(!checkCPF(cl->cpf)){
                 printf("                       *CPF Invalido.\n");
             }
             do{
@@ -110,12 +118,13 @@ void telaAdicionarCliente(void){
                 printf("                     Digite a opcao desejada: ");
                 scanf("%c", &esc);
                 getchar();
+                free(cl->nome);
+                free(cl->endereco);
+                free(cl->email);
             } while(!checkDigit(esc));
-            
-            free(nome);
-            free(email);
-            free(endereco);
+
         } else {
+            
             do{
                 printf("                     Cliente cadastrado.\n");
                 printf("  ---------------------------------------------------------------------  \n");
@@ -125,13 +134,11 @@ void telaAdicionarCliente(void){
                 printf("                     Digite a opcao desejada: ");
                 scanf("%c", &esc);
                 getchar();
+                free(cl->nome);
+                free(cl->endereco);
+                free(cl->email);
             } while(!checkDigit(esc));
-            
-            free(nome);
-            free(email);
-            free(endereco);
         } 
-       
     } while(esc != '0');
     telaCliente();
 }
