@@ -120,6 +120,8 @@ void telaAdicionarJogo(void){
                 scanf("%c", &esc);
                 getchar();
             } while (!checkDigit(esc));
+            free(jogo->nome);
+            free(jogo->resumo);
         }
         
     } while(esc != '0');
@@ -135,17 +137,32 @@ void telaPesquisarJogo(void){
         printf("  ---------------------------------------------------------------------  \n");
         printf("  |                    SIG-GAMES | Pesquisar jogo                     |  \n");
         printf("  ---------------------------------------------------------------------  \n");
-        printf("                     Informe o ID/Nome do jogo: ");
+        printf("                     Informe o ID do jogo: ");
         scanf("%d", &id);
         getchar();
-
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("  |                     1. Pesquisar outro jogo                       |  \n");
-        printf("  |                     0. Voltar                                     |  \n");
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("                     Digite a opcao desejada: ");
-        scanf("%c", &esc);
-        getchar();
+        if(!checkID(id)){    
+            do
+            {
+                printf("                       *ID Invalido.\n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Tentar novamente                            |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while (!checkDigit(esc));
+        } else{    
+            do{
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("  |                     1. Pesquisar outro jogo                       |  \n");
+            printf("  |                     0. Voltar                                     |  \n");
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                     Digite a opcao desejada: ");
+            scanf("%c", &esc);
+            getchar();
+            }while(!checkDigit(esc));
+        }
     }while (esc != '0');
     telaJogo();
 }

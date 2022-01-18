@@ -49,6 +49,7 @@ void telaFuncionario(void){
 }
 
 void telaAdicionarFuncionario(void){
+    FILE* file;
     Funcionario* fun;
     char linha[256];
     int tam;
@@ -130,6 +131,21 @@ void telaAdicionarFuncionario(void){
             
             } while (!checkDigit(esc));
         } else{
+            file = fopen("funcionarios.txt", "at");
+            if (file){
+                fprintf(file, "%s\n", fun->cpf);
+                fprintf(file, "%s\n", fun->nome);
+                fprintf(file, "%s\n", fun->cargo);
+                fprintf(file, "%s\n", fun->email);
+                fprintf(file, "%s\n", fun->endereco);
+                fprintf(file, "%d\n", fun->diaNasc);
+                fprintf(file, "%d\n", fun->mesNasc);
+                fprintf(file, "%d\n", fun->anoNasc); 
+                fclose(file);
+            } else{
+                printf("Ocorreu um erro com a criação do arquivo!");
+                exit(1);
+            }
             do{
                 printf("                     Funcionario adicionado.\n");
                 printf("  ---------------------------------------------------------------------  \n");
@@ -139,17 +155,20 @@ void telaAdicionarFuncionario(void){
                 printf("                     Digite a opcao desejada: ");
                 scanf("%c", &esc);
                 getchar();
-                free(fun->nome);
-                free(fun->cargo);
-                free(fun->email);
-                free(fun->endereco);
             } while (!checkDigit(esc));
+            free(fun->nome);
+            free(fun->cargo);
+            free(fun->email);
+            free(fun->endereco);
         }
     } while(esc != '0');
     telaFuncionario();
 }
 
 void telaPesquisarFuncionario(void){
+    FILE* file;
+    char linha[255];
+    int achou;
     char cpf[12];
     char esc;
 
@@ -158,26 +177,49 @@ void telaPesquisarFuncionario(void){
         printf("  ---------------------------------------------------------------------  \n");
         printf("  |                 SIG-GAMES | Pesquisar funcionario                 |  \n");
         printf("  ---------------------------------------------------------------------  \n");
-        printf("                     Informe o CPF do funcionario: \n");
-        scanf("%c", cpf);
+        printf("                     Informe o CPF do funcionario: ");
+        scanf("%[0-9]", cpf);
         getchar();
-         if(!checkCPF(cpf)){
-            printf("                       *CPF Invalido.\n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Tentar novamente                            |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+        if(!checkCPF(cpf)){
+            do{
+                printf("                       *CPF Invalido.\n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Tentar novamente                            |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
         } else {
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                  1. Pesquisar outro funcionario                   |  \n");
-            printf("  |                  0. Voltar                                        |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            file = fopen("funcionarios.txt", "rt");
+            if (file == NULL){
+                printf("Ocorreu um erro ao ler o arquivo!");
+                exit(1);
+            }
+            achou = 0;
+            while(fscanf(file, "%[^\n]", linha) == 1 && achou != 1){
+                if (strcmp(cpf, linha) == 0){
+                    achou = 1;
+                    for(int i = 0; i <= 8; i++){
+                        printf("%s\n", linha);
+                        fgets(linha, 255, file);
+                        
+                    }
+                }
+                fgetc(file);
+            }
+            fclose(file);
+            do{
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                  1. Pesquisar outro funcionario                   |  \n");
+                printf("  |                  0. Voltar                                        |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
+            
         }
     } while(esc != '0');
     telaFuncionario();
@@ -196,22 +238,26 @@ void telaEditarFuncionario(void){
         scanf("%[0-9.-]", cpf);
         getchar();
         if(!checkCPF(cpf)){
-            printf("                       *CPF Invalido.\n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Tentar novamente                            |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            do{
+                printf("                       *CPF Invalido.\n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Tentar novamente                            |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
         } else {
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Editar outro funcionario                    |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            do{
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Editar outro funcionario                    |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
         }
     } while(esc != '0');
 
@@ -231,23 +277,27 @@ void telaRemoverFuncionario(void){
         scanf("%[0-9.-]", cpf);
         getchar();
         if(!checkCPF(cpf)){
-            printf("                       *CPF Invalido.\n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                    1. Tentar novamente                            |  \n");
-            printf("  |                    0. Voltar                                      |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            do{
+                printf("                       *CPF Invalido.\n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                    1. Tentar novamente                            |  \n");
+                printf("  |                    0. Voltar                                      |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
         } else {
-            printf("                     Funcionario removido.\n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("  |                   1. Remover outro funcionario                    |  \n");
-            printf("  |                   0. Voltar                                       |  \n");
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                     Digite a opcao desejada: ");
-            scanf("%c", &esc);
-            getchar();
+            do{
+                printf("                     Funcionario removido.\n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("  |                   1. Remover outro funcionario                    |  \n");
+                printf("  |                   0. Voltar                                       |  \n");
+                printf("  ---------------------------------------------------------------------  \n");
+                printf("                     Digite a opcao desejada: ");
+                scanf("%c", &esc);
+                getchar();
+            } while(!checkDigit(esc));
         }
     }while(esc != '0');
     telaFuncionario();

@@ -126,10 +126,10 @@ void telaAdicionarCliente(void){
         } else {
             file = fopen("clientes.txt", "at");
             if (file){
-                fprintf(file,"%s\n",cl->cpf);
-                fprintf(file,"%s\n",cl->nome);
-                fprintf(file,"%s\n",cl->email);
-                fprintf(file,"%s\n",cl->endereco);
+                fprintf(file, "%s\n", cl->cpf);
+                fprintf(file, "%s\n", cl->nome);
+                fprintf(file, "%s\n", cl->email);
+                fprintf(file, "%s\n", cl->endereco);
                 fprintf(file, "%d\n", cl->diaNasc);
                 fprintf(file, "%d\n", cl->mesNasc);
                 fprintf(file, "%d\n", cl->anoNasc); 
@@ -173,7 +173,6 @@ void telaPesquisarCliente(void){
         printf("                     Informe o CPF do cliente: ");
         scanf("%[0-9]", cpf);
         getchar();
-
         if(!checkCPF(cpf)){
             do{
                 printf("                       *CPF Invalido.\n");
@@ -185,7 +184,6 @@ void telaPesquisarCliente(void){
                 scanf("%c", &esc);
                 getchar();
             } while(!checkDigit(esc));
-            
         } else {
             file = fopen("clientes.txt", "rt");
             if (file == NULL){

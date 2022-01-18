@@ -8,3 +8,5 @@ int checkResumo(char *);
 int checkCargo(char* );
 
 int checkDigit(char);
+
+int checkID(char);

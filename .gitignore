@@ -58,3 +58,5 @@ CppProperties.json
 .vs/sig-games/v16/.suo
 .vs/ProjectSettings.json
 edit.txt
+*.json
+*.rar

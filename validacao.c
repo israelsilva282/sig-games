@@ -114,3 +114,11 @@ int checkCargo(char *cargo){
         return 1;
     }
 }
+
+int checkID(char num){
+    if (num >= '0'){
+        return 1;
+    } else {
+        return 0;
+    }
+}
