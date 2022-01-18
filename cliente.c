@@ -12,7 +12,6 @@ struct cliente{
     int mesNasc;
     int anoNasc;
     char cpf[12];
-    char esc;
 };
 
 
@@ -53,6 +52,7 @@ void telaCliente(void){
 }
 
 void telaAdicionarCliente(void){
+    FILE* file;
     Cliente* cl;
     char esc;
     char linha[256];
@@ -124,6 +124,21 @@ void telaAdicionarCliente(void){
             } while(!checkDigit(esc));
 
         } else {
+            file = fopen("clientes.txt", "at");
+            if (file){
+                fprintf(file,"%s\n",cl->cpf);
+                fprintf(file,"%s\n",cl->nome);
+                fprintf(file,"%s\n",cl->email);
+                fprintf(file,"%s\n",cl->endereco);
+                fprintf(file, "%d\n", cl->diaNasc);
+                fprintf(file, "%d\n", cl->mesNasc);
+                fprintf(file, "%d\n", cl->anoNasc); 
+                fclose(file);
+            } else{
+                printf("Ocorreu um erro com a criação do arquivo!");
+                exit(1);
+            }
+
             
             do{
                 printf("                     Cliente cadastrado.\n");
@@ -134,18 +149,21 @@ void telaAdicionarCliente(void){
                 printf("                     Digite a opcao desejada: ");
                 scanf("%c", &esc);
                 getchar();
-                free(cl->nome);
-                free(cl->endereco);
-                free(cl->email);
             } while(!checkDigit(esc));
+            free(cl->nome);
+            free(cl->endereco);
+            free(cl->email);
         } 
     } while(esc != '0');
     telaCliente();
 }
 
 void telaPesquisarCliente(void){
+    FILE* file;
+    char linha[255];
     char cpf[12];
     char esc;
+    int achou;
 
     do{
         system("clear||cls");
@@ -153,7 +171,7 @@ void telaPesquisarCliente(void){
         printf("  |                    SIG-GAMES | Pesquisar cliente                  |  \n");
         printf("  ---------------------------------------------------------------------  \n");
         printf("                     Informe o CPF do cliente: ");
-        scanf("%[0-9.-]", cpf);
+        scanf("%[0-9]", cpf);
         getchar();
 
         if(!checkCPF(cpf)){
@@ -169,6 +187,24 @@ void telaPesquisarCliente(void){
             } while(!checkDigit(esc));
             
         } else {
+            file = fopen("clientes.txt", "rt");
+            if (file == NULL){
+                printf("Ocorreu um erro ao ler o arquivo!");
+                exit(1);
+            }
+            achou = 0;
+            while(fscanf(file, "%[^\n]", linha) == 1 && achou != 1){
+                if (strcmp(cpf, linha) == 0){
+                    achou = 1;
+                    for(int i = 0; i <= 7; i++){
+                        printf("%s\n", linha);
+                        fgets(linha, 255, file);
+                        
+                    }
+                }
+                fgetc(file);
+            }
+            fclose(file);
             do{
                 printf("  ---------------------------------------------------------------------  \n");
                 printf("  |                     1. Pesquisar outro cliente                    |  \n");
