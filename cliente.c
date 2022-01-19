@@ -12,6 +12,7 @@ struct cliente{
     int mesNasc;
     int anoNasc;
     char cpf[12];
+    char status;
 };
 
 
@@ -94,6 +95,7 @@ void telaAdicionarCliente(void){
         printf("                     CPF (Apenas Numeros): ");
         scanf("%[0-9]", cl->cpf);
         getchar();
+        cl->status = 'c';
         if(!checkData(cl->anoNasc, cl->mesNasc, cl->diaNasc) || !checkCPF(cl->cpf) || !checkEmail(cl->email) || !checkNome(cl->nome) || !checkEndereco(cl->endereco)){
             if(!checkNome(cl->nome)){
                 printf("                       *Nome Invalido\n");
@@ -121,24 +123,19 @@ void telaAdicionarCliente(void){
                 free(cl->nome);
                 free(cl->endereco);
                 free(cl->email);
+                free(cl);
             } while(!checkDigit(esc));
 
         } else {
-            file = fopen("clientes.txt", "at");
+            file = fopen("clientes.dat", "ab");
             if (file){
-                fprintf(file, "%s\n", cl->cpf);
-                fprintf(file, "%s\n", cl->nome);
-                fprintf(file, "%s\n", cl->email);
-                fprintf(file, "%s\n", cl->endereco);
-                fprintf(file, "%d\n", cl->diaNasc);
-                fprintf(file, "%d\n", cl->mesNasc);
-                fprintf(file, "%d\n", cl->anoNasc); 
+                fwrite(cl, sizeof(Cliente), 1, file);
                 fclose(file);
             } else{
                 printf("Ocorreu um erro com a criação do arquivo!");
                 exit(1);
             }
-
+            free(cl);
             
             do{
                 printf("                     Cliente cadastrado.\n");
@@ -160,11 +157,11 @@ void telaAdicionarCliente(void){
 
 void telaPesquisarCliente(void){
     FILE* file;
-    char linha[255];
+    Cliente* cl;
     char cpf[12];
     char esc;
-    int achou;
-
+    char situacao[20];
+    cl = (Cliente*) malloc(sizeof(Cliente));
     do{
         system("clear||cls");
         printf("  ---------------------------------------------------------------------  \n");
@@ -185,22 +182,31 @@ void telaPesquisarCliente(void){
                 getchar();
             } while(!checkDigit(esc));
         } else {
-            file = fopen("clientes.txt", "rt");
+            file = fopen("clientes.dat", "rb");
             if (file == NULL){
                 printf("Ocorreu um erro ao ler o arquivo!");
                 exit(1);
             }
-            achou = 0;
-            while(fscanf(file, "%[^\n]", linha) == 1 && achou != 1){
-                if (strcmp(cpf, linha) == 0){
-                    achou = 1;
-                    for(int i = 0; i <= 7; i++){
-                        printf("%s\n", linha);
-                        fgets(linha, 255, file);
-                        
+            while(!feof(file)){
+                fread(cl, sizeof(Cliente), 1, file);
+                printf("CPF1: %s\n", cl->cpf);
+                printf("Nome1: %s\n", cl->nome);
+                if((strcmp(cl->cpf, cpf) == 0) && (cl->status == 'x')){
+                    printf("CPF: %s\n", cl->cpf);
+                    printf("Nome: %s\n", cl->nome);
+                    printf("Data de nascimento: %d/%d/%d", cl->diaNasc, cl->mesNasc, cl->anoNasc);
+                    printf("Endereco: %s\n", cl->endereco);
+                    printf("Email: %s\n", cl->email);
+                    if(cl->status == 'c'){
+                        strcpy(situacao, "Cadastrado");
+                    } else if (cl->status == 'x'){
+                        strcpy(situacao, "Excluido");
+                    } else {
+                        strcpy(situacao, "Nao informado");
                     }
+                    printf("Situação: %s\n", situacao);
+                    fclose(file);
                 }
-                fgetc(file);
             }
             fclose(file);
             do{
