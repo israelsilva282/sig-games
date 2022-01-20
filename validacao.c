@@ -115,8 +115,8 @@ int checkCargo(char *cargo){
     }
 }
 
-int checkID(char num){
-    if (num >= '0'){
+int checkID(int num){
+    if (num >= 0){
         return 1;
     } else {
         return 0;

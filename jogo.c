@@ -7,13 +7,15 @@
 typedef struct jogo Jogo;
 
 struct jogo{
-    char *nome, *resumo;
+    char nome[255];
+    char sinopse[255];
+    char estiloJogo[255];
     int diaLanc;
     int mesLanc;
     int anoLanc;
-    unsigned int id;
+    int id;
+    char situacao;
 };
-//As funções de validação neste módulo só funcionará quando já possuir armazenamento.
 void telaJogo(void){
     char esc;
 
@@ -55,11 +57,11 @@ void telaJogo(void){
 }
 
 void telaAdicionarJogo(void){
+    FILE* file;
     Jogo* jogo;
-    char linha[256];
-    int tam;
     char esc;
     jogo = (Jogo*) malloc(sizeof(Jogo));
+    int novoid = 0;
 
     do{
         system("clear||cls");
@@ -67,39 +69,44 @@ void telaAdicionarJogo(void){
         printf("  |                     SIG-GAMES | Adicionar jogo                    |  \n");
         printf("  ---------------------------------------------------------------------  \n");
         printf("                     Nome: ");
-        scanf(" %255[^\n]", linha);
-        tam = strlen(linha);
-        jogo->nome = (char *) malloc(tam+1);
-        strcpy(jogo->nome,linha);
+        scanf(" %255[^\n]", jogo->nome);
+        getchar();
+        printf("                     Sinopse: ");
+        scanf("%255[^\n]", jogo->sinopse);
         getchar();
         printf("                     Data de lancamento (DD/MM/AA)\n");
-        printf("                      Dia: ");
+        printf("                     Dia: ");
         scanf("%d", &jogo->diaLanc);
         getchar();
-        printf("                      Mes: ");
+        printf("                     Mes: ");
         scanf("%d", &jogo->mesLanc);
         getchar();
-        printf("                      Ano: ");
+        printf("                     Ano: ");
         scanf("%d", &jogo->anoLanc);
         getchar();
-        printf("                     Resumo: ");
-        scanf(" %255[^\n]", linha);
-        tam = strlen(linha);
-        jogo->resumo = (char *) malloc(tam+1);
-        strcpy(jogo->resumo,linha);
+        printf("                     Estilo de jogo: ");
+        scanf(" %255[^\n]", jogo->estiloJogo);
         getchar();
-        printf("                     ID: ");
-        scanf("%d", &jogo->id);
-        getchar();
+        file = fopen("jogos.dat", "rb");
+        if(file == NULL){
+            printf("Ocorreu um problema ao adicionar o ID.");
+            exit(1);
+        }else{  
+            fread(jogo, sizeof(Jogo), 1, file);
+            fseek(file, (-1)*sizeof(Jogo), SEEK_END); 
+            novoid = jogo->id + 1;
+            fclose(file);
+        }
+        jogo->id = novoid;
+        jogo->situacao = 'd';
 
-        if(!checkData(jogo->anoLanc, jogo->mesLanc, jogo->diaLanc) || !checkResumo(jogo->resumo)){
+        if(!checkData(jogo->anoLanc, jogo->mesLanc, jogo->diaLanc) || !checkResumo(jogo->sinopse)){
             if(!checkData(jogo->anoLanc, jogo->mesLanc, jogo->diaLanc)){
                 printf("                       *Data Invalida.\n");
             }
-            if(!checkResumo(jogo->resumo)){
+            if(!checkResumo(jogo->sinopse)){
                 printf("                       *Resumo Invalido.\n");
             }
-            //checkID só funcionará quando já possuir armazenamento
             do{
                 printf("  ---------------------------------------------------------------------  \n");
                 printf("  |                    1. Tentar novamente                            |  \n");
@@ -110,6 +117,15 @@ void telaAdicionarJogo(void){
                 getchar();
             } while (!checkDigit(esc));
         } else{
+            file = fopen("jogos.dat", "ab");
+            if(file){
+                fwrite(jogo, sizeof(Jogo), 1, file);
+                fclose(file);
+            } else{
+                printf("Ocorreu um erro com a criação do arquivo!");
+                exit(1);
+            }
+            free(jogo);
             do{
                 printf("                     Jogo adicionado.\n");
                 printf("  ---------------------------------------------------------------------  \n");
@@ -120,18 +136,18 @@ void telaAdicionarJogo(void){
                 scanf("%c", &esc);
                 getchar();
             } while (!checkDigit(esc));
-            free(jogo->nome);
-            free(jogo->resumo);
         }
-        
     } while(esc != '0');
     telaJogo();
 }
 
 void telaPesquisarJogo(void){
-    unsigned int id;
+    FILE* file;
+    Jogo* jogo;
+    int id;
     char esc;
-
+    char situacao[20];
+    jogo = (Jogo*) malloc(sizeof(Jogo));
     do{
         system("clear||cls");
         printf("  ---------------------------------------------------------------------  \n");
@@ -153,6 +169,34 @@ void telaPesquisarJogo(void){
                 getchar();
             } while (!checkDigit(esc));
         } else{    
+            file = fopen("jogos.dat", "rb");
+            if(file == NULL){
+                printf("Ocorreu um erro ao ler o arquivo!");
+                exit(1);
+            }
+            while(!feof(file)){
+                fread(jogo, sizeof(Jogo), 1, file);
+                if(jogo->id == id && (jogo->situacao != 'x')){
+                    printf("ID: %u\n", jogo->id);
+                    printf("Nome: %s\n", jogo->nome);
+                    printf("Sinopse: %s\n", jogo->sinopse);
+                    printf("Data de lancamento: %d/%d/%d\n", jogo->diaLanc, jogo->mesLanc, jogo->anoLanc);
+                    printf("Estilo de jogo: %s\n", jogo->estiloJogo);
+                    if(jogo->situacao == 'd'){
+                        strcpy(situacao, "Disponivel");
+                    } else if (jogo->situacao == 'a'){
+                        strcpy(situacao, "Alugado");
+                    }else if (jogo->situacao == 'x'){
+                        strcpy(situacao, "Excluido");
+                    } else {
+                        strcpy(situacao, "Nao informado");
+                    }
+                    printf("Situacao: %s\n", situacao);
+                    fclose(file);
+                    break;
+                }
+            }
+            fclose(file);
             do{
             printf("  ---------------------------------------------------------------------  \n");
             printf("  |                     1. Pesquisar outro jogo                       |  \n");

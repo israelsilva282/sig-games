@@ -9,4 +9,4 @@ int checkCargo(char* );
 
 int checkDigit(char);
 
-int checkID(char);
+int checkID(int);
