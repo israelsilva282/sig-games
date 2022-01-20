@@ -7,7 +7,9 @@
 typedef struct cliente Cliente;
 
 struct cliente{
-    char *nome, *email, *endereco;
+    char nome[255];
+    char email[255];
+    char endereco[255];
     int diaNasc;
     int mesNasc;
     int anoNasc;
@@ -56,8 +58,6 @@ void telaAdicionarCliente(void){
     FILE* file;
     Cliente* cl;
     char esc;
-    char linha[256];
-    int tam;
     cl = (Cliente*) malloc(sizeof(Cliente));
 
     do{
@@ -66,10 +66,7 @@ void telaAdicionarCliente(void){
         printf("  |                    SIG-GAMES | Adicionar Cliente                  |  \n");
         printf("  ---------------------------------------------------------------------  \n");
         printf("                     Nome completo: ");
-        scanf(" %255[^\n]", linha);
-        tam =  strlen(linha);
-        cl->nome = (char *) malloc(tam+1);
-        strcpy(cl->nome, linha);
+        scanf(" %255[^\n]", cl->nome);
         getchar();
         printf("                     Dia de nascimento: ");
         scanf("%d", &cl->diaNasc);
@@ -81,16 +78,10 @@ void telaAdicionarCliente(void){
         scanf("%d", &cl->anoNasc);
         getchar();
         printf("                     Endereco: ");
-        scanf(" %255[^\n]", linha);
-        tam =  strlen(linha);
-        cl->endereco = (char *) malloc(tam+1);
-        strcpy(cl->endereco, linha);
+        scanf(" %255[^\n]", cl->endereco);
         getchar();
         printf("                     Email: ");
-        scanf(" %255[^\n]", linha);
-        tam =  strlen(linha);
-        cl->email = (char *) malloc(tam+1);
-        strcpy(cl->email, linha);
+        scanf(" %255[^\n]", cl->email);
         getchar();
         printf("                     CPF (Apenas Numeros): ");
         scanf("%[0-9]", cl->cpf);
@@ -120,10 +111,6 @@ void telaAdicionarCliente(void){
                 printf("                     Digite a opcao desejada: ");
                 scanf("%c", &esc);
                 getchar();
-                free(cl->nome);
-                free(cl->endereco);
-                free(cl->email);
-                free(cl);
             } while(!checkDigit(esc));
 
         } else {
@@ -147,9 +134,6 @@ void telaAdicionarCliente(void){
                 scanf("%c", &esc);
                 getchar();
             } while(!checkDigit(esc));
-            free(cl->nome);
-            free(cl->endereco);
-            free(cl->email);
         } 
     } while(esc != '0');
     telaCliente();
@@ -189,12 +173,10 @@ void telaPesquisarCliente(void){
             }
             while(!feof(file)){
                 fread(cl, sizeof(Cliente), 1, file);
-                printf("CPF1: %s\n", cl->cpf);
-                printf("Nome1: %s\n", cl->nome);
-                if((strcmp(cl->cpf, cpf) == 0) && (cl->status == 'x')){
-                    printf("CPF: %s\n", cl->cpf);
+                if((strcmp(cl->cpf, cpf) == 0) && (cl->status != 'x')){
                     printf("Nome: %s\n", cl->nome);
-                    printf("Data de nascimento: %d/%d/%d", cl->diaNasc, cl->mesNasc, cl->anoNasc);
+                    printf("CPF: %s\n", cl->cpf);
+                    printf("Data de nascimento: %d/%d/%d\n", cl->diaNasc, cl->mesNasc, cl->anoNasc);
                     printf("Endereco: %s\n", cl->endereco);
                     printf("Email: %s\n", cl->email);
                     if(cl->status == 'c'){
@@ -204,8 +186,9 @@ void telaPesquisarCliente(void){
                     } else {
                         strcpy(situacao, "Nao informado");
                     }
-                    printf("Situação: %s\n", situacao);
+                    printf("Situacao: %s\n", situacao);
                     fclose(file);
+                    break;
                 }
             }
             fclose(file);
@@ -292,7 +275,7 @@ void telaRemoverCliente(void){
            
         } else {
             do{
-                 printf("  ---------------------------------------------------------------------  \n");
+                printf("  ---------------------------------------------------------------------  \n");
                 printf("  |                       1. Remover outro cliente                    |  \n");
                 printf("  |                       0. Voltar                                   |  \n");
                 printf("  ---------------------------------------------------------------------  \n");

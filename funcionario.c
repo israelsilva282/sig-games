@@ -7,11 +7,15 @@
 typedef struct funcionario Funcionario;
 
 struct funcionario{
-    char *nome, *cargo, *email, *endereco;
+    char nome[255];
+    char cargo[20];
+    char email[255];
+    char endereco[255];
     int diaNasc;
     int mesNasc;
     int anoNasc;
     char cpf[12];
+    char status;
 };
 
 void telaFuncionario(void){
@@ -51,8 +55,6 @@ void telaFuncionario(void){
 void telaAdicionarFuncionario(void){
     FILE* file;
     Funcionario* fun;
-    char linha[256];
-    int tam;
     char esc;
     fun = (Funcionario*) malloc(sizeof(Funcionario));
     do{
@@ -61,16 +63,10 @@ void telaAdicionarFuncionario(void){
         printf("  |                    SIG-GAMES | Adicionar funcionario              |  \n");
         printf("  ---------------------------------------------------------------------  \n");
         printf("                     Nome completo: ");
-        scanf(" %255[^\n]", linha);
-        tam = strlen(linha);
-        fun->nome = (char *) malloc(tam+1);
-        strcpy(fun->nome, linha);
+        scanf(" %255[^\n]", fun->nome);
         getchar();
         printf("                     Cargo: ");
-        scanf(" %255[^\n]", linha);
-        tam = strlen(linha);
-        fun->cargo = (char *) malloc(tam+1);
-        strcpy(fun->cargo, linha);
+        scanf(" %20[^\n]", fun->cargo);
         getchar();
         printf("                     Dia de nascimento: ");
         scanf("%d", &fun->diaNasc);
@@ -82,20 +78,15 @@ void telaAdicionarFuncionario(void){
         scanf("%d", &fun->anoNasc);
         getchar();
         printf("                     Endereco: ");
-        scanf(" %255[^\n]", linha);
-        tam = strlen(linha);
-        fun->endereco = (char *) malloc(tam+1);
-        strcpy(fun->endereco, linha);
+        scanf(" %255[^\n]", fun->endereco);
         getchar();
         printf("                     Email: ");
-        scanf(" %255[^\n]", linha);
-        tam = strlen(linha);
-        fun->email = (char *) malloc(tam+1);
-        strcpy(fun->email, linha);
+        scanf(" %255[^\n]", fun->email);
         getchar();
         printf("                     CPF (Apenas numeros): ");
         scanf("%[0-9]", fun->cpf);
         getchar();
+        fun->status = 'c';
 
         if(!checkData(fun->anoNasc, fun->mesNasc, fun->diaNasc) || !checkCPF(fun->cpf) || !checkEmail(fun->email) || !checkNome(fun->nome) || !checkEndereco(fun->endereco) || !checkCargo(fun->cargo)){
             if(!checkNome(fun->nome)){
@@ -124,28 +115,19 @@ void telaAdicionarFuncionario(void){
                 printf("                     Digite a opcao desejada: ");
                 scanf("%c", &esc);
                 getchar();
-                free(fun->nome);
-                free(fun->cargo);
-                free(fun->email);
-                free(fun->endereco);
-            
             } while (!checkDigit(esc));
+
         } else{
-            file = fopen("funcionarios.txt", "at");
+            file = fopen("funcionarios.dat", "ab");
             if (file){
-                fprintf(file, "%s\n", fun->cpf);
-                fprintf(file, "%s\n", fun->nome);
-                fprintf(file, "%s\n", fun->cargo);
-                fprintf(file, "%s\n", fun->email);
-                fprintf(file, "%s\n", fun->endereco);
-                fprintf(file, "%d\n", fun->diaNasc);
-                fprintf(file, "%d\n", fun->mesNasc);
-                fprintf(file, "%d\n", fun->anoNasc); 
+                fwrite(fun, sizeof(Funcionario), 1, file);
                 fclose(file);
             } else{
                 printf("Ocorreu um erro com a criação do arquivo!");
                 exit(1);
             }
+            free(fun);
+
             do{
                 printf("                     Funcionario adicionado.\n");
                 printf("  ---------------------------------------------------------------------  \n");
@@ -156,10 +138,6 @@ void telaAdicionarFuncionario(void){
                 scanf("%c", &esc);
                 getchar();
             } while (!checkDigit(esc));
-            free(fun->nome);
-            free(fun->cargo);
-            free(fun->email);
-            free(fun->endereco);
         }
     } while(esc != '0');
     telaFuncionario();
@@ -167,11 +145,11 @@ void telaAdicionarFuncionario(void){
 
 void telaPesquisarFuncionario(void){
     FILE* file;
-    char linha[255];
-    int achou;
+    Funcionario* fun;
     char cpf[12];
     char esc;
-
+    char situacao[20];
+    fun = (Funcionario*) malloc(sizeof(Funcionario));
     do{
         system("clear||cls");
         printf("  ---------------------------------------------------------------------  \n");
@@ -192,22 +170,31 @@ void telaPesquisarFuncionario(void){
                 getchar();
             } while(!checkDigit(esc));
         } else {
-            file = fopen("funcionarios.txt", "rt");
+            file = fopen("funcionarios.dat", "rb");
             if (file == NULL){
                 printf("Ocorreu um erro ao ler o arquivo!");
                 exit(1);
             }
-            achou = 0;
-            while(fscanf(file, "%[^\n]", linha) == 1 && achou != 1){
-                if (strcmp(cpf, linha) == 0){
-                    achou = 1;
-                    for(int i = 0; i <= 8; i++){
-                        printf("%s\n", linha);
-                        fgets(linha, 255, file);
-                        
+            while(!feof(file)){
+                fread(fun, sizeof(Funcionario), 1, file);
+                if((strcmp(fun->cpf, cpf) == 0) && (fun->status != 'x')){
+                    printf("Nome: %s\n", fun->nome);
+                    printf("Cargo: %s\n", fun->cargo);
+                    printf("CPF: %s\n", fun->cpf);
+                    printf("Data de nascimento: %d/%d/%d\n", fun->diaNasc, fun->mesNasc, fun->anoNasc);
+                    printf("Endereco: %s\n", fun->endereco);
+                    printf("Email: %s\n", fun->email);
+                    if(fun->status == 'c'){
+                        strcpy(situacao, "Cadastrado");
+                    } else if (fun->status == 'x'){
+                        strcpy(situacao, "Excluido");
+                    } else {
+                        strcpy(situacao, "Nao informado");
                     }
+                    printf("Situacao: %s\n", situacao);
+                    fclose(file);
+                    break;
                 }
-                fgetc(file);
             }
             fclose(file);
             do{
@@ -219,7 +206,7 @@ void telaPesquisarFuncionario(void){
                 scanf("%c", &esc);
                 getchar();
             } while(!checkDigit(esc));
-            
+    
         }
     } while(esc != '0');
     telaFuncionario();
