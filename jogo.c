@@ -59,8 +59,10 @@ void telaJogo(void){
 void telaAdicionarJogo(void){
     FILE* file;
     Jogo* jogo;
+    Jogo* jogo2;
     char esc;
     jogo = (Jogo*) malloc(sizeof(Jogo));
+    jogo2 = (Jogo*) malloc(sizeof(Jogo));
     int novoid = 0;
 
     do{
@@ -89,12 +91,15 @@ void telaAdicionarJogo(void){
         getchar();
         file = fopen("jogos.dat", "rb");
         if(file == NULL){
-            printf("Ocorreu um problema ao adicionar o ID.");
-            exit(1);
+            printf("Criando um novo arquivo...\n");
+            file = fopen("jogos.dat", "wb");
+            novoid = 1;
+            fclose(file);
         }else{  
-            fread(jogo, sizeof(Jogo), 1, file);
+            fread(jogo2, sizeof(Jogo), 1, file);
+
             fseek(file, (-1)*sizeof(Jogo), SEEK_END); 
-            novoid = jogo->id + 1;
+            novoid = jogo2->id + 1;
             fclose(file);
         }
         jogo->id = novoid;
@@ -125,6 +130,11 @@ void telaAdicionarJogo(void){
                 printf("Ocorreu um erro com a criação do arquivo!");
                 exit(1);
             }
+            // file = fopen("jogos.dat", "r+b");
+            // if(file){
+            //     fread(jogo, sizeof(Jogo), 1, file);
+            //     fseek(file, -1*sizeof(Jogo), SEEK_END);
+            // }
             free(jogo);
             do{
                 printf("                     Jogo adicionado.\n");
@@ -146,7 +156,7 @@ void telaPesquisarJogo(void){
     Jogo* jogo;
     int id;
     char esc;
-    char situacao[20];
+    char situacao[30];
     jogo = (Jogo*) malloc(sizeof(Jogo));
     do{
         system("clear||cls");
@@ -196,7 +206,7 @@ void telaPesquisarJogo(void){
                     break;
                 }
             }
-            fclose(file);
+            //fclose(file);
             do{
             printf("  ---------------------------------------------------------------------  \n");
             printf("  |                     1. Pesquisar outro jogo                       |  \n");
