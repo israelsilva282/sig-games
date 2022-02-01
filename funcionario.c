@@ -105,7 +105,7 @@ void telaAdicionarFuncionario(void){
                 printf("                       *Email Invalido.\n");
             }
             if(!checkCargo(fun->cargo)){
-                printf("                       *Cargo Invalido");
+                printf("                       *Cargo Invalido\n");
             }
             do{
                 printf("  ---------------------------------------------------------------------  \n");
@@ -140,7 +140,6 @@ void telaAdicionarFuncionario(void){
             } while (!checkDigit(esc));
         }
     } while(esc != '0');
-    telaFuncionario();
 }
 
 void telaPesquisarFuncionario(void){
@@ -209,7 +208,6 @@ void telaPesquisarFuncionario(void){
     
         }
     } while(esc != '0');
-    telaFuncionario();
 }
 
 void telaEditarFuncionario(void){
@@ -247,13 +245,14 @@ void telaEditarFuncionario(void){
             } while(!checkDigit(esc));
         }
     } while(esc != '0');
-
-    telaFuncionario();
 }
 
 void telaRemoverFuncionario(void){
+    FILE* file;
+    Funcionario* fun;
     char cpf[12];
     char esc;
+    fun = (Funcionario*) malloc(sizeof(Funcionario));
     
     do{
         system("clear||cls");
@@ -275,8 +274,28 @@ void telaRemoverFuncionario(void){
                 getchar();
             } while(!checkDigit(esc));
         } else {
+            file = fopen("funcionarios.dat", "r+b");
+
+            if(file == NULL){
+                printf("Ocorreu um erro ao ler o arquivo!");
+                exit(1);
+            }
+
+            while(!feof(file)){
+                fread(fun, sizeof(Funcionario), 1 , file);
+                if(strcmp(fun->cpf, cpf) == 0 && fun->status != 'x'){
+                    fun->status = 'x';
+                    fseek(file, -1*sizeof(Funcionario), SEEK_CUR);
+                    fwrite(fun, sizeof(Funcionario), 1,file);
+                    printf("Funcionario excluido!\n");
+                    break;
+                }
+            }
+
+            fclose(file);
+
+
             do{
-                printf("                     Funcionario removido.\n");
                 printf("  ---------------------------------------------------------------------  \n");
                 printf("  |                   1. Remover outro funcionario                    |  \n");
                 printf("  |                   0. Voltar                                       |  \n");
@@ -287,5 +306,4 @@ void telaRemoverFuncionario(void){
             } while(!checkDigit(esc));
         }
     }while(esc != '0');
-    telaFuncionario();
 }

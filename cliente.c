@@ -136,7 +136,6 @@ void telaAdicionarCliente(void){
             } while(!checkDigit(esc));
         } 
     } while(esc != '0');
-    telaCliente();
 }
 
 void telaPesquisarCliente(void){
@@ -174,8 +173,8 @@ void telaPesquisarCliente(void){
             while(!feof(file)){
                 fread(cl, sizeof(Cliente), 1, file);
                 if((strcmp(cl->cpf, cpf) == 0) && (cl->status != 'x')){
-                    printf("Nome: %s\n", cl->nome);
                     printf("CPF: %s\n", cl->cpf);
+                    printf("Nome: %s\n", cl->nome);
                     printf("Data de nascimento: %d/%d/%d\n", cl->diaNasc, cl->mesNasc, cl->anoNasc);
                     printf("Endereco: %s\n", cl->endereco);
                     printf("Email: %s\n", cl->email);
@@ -204,7 +203,6 @@ void telaPesquisarCliente(void){
             
         }
     } while(esc != '0');
-    telaCliente();   
 }
 
 void telaEditarCliente(void){
@@ -245,12 +243,14 @@ void telaEditarCliente(void){
         }
     } while(esc != '0');
 
-    telaCliente();
 }
 
 void telaRemoverCliente(void){
+    Cliente* cl;
+    FILE* file;
     char cpf[12];
     char esc;
+    cl = (Cliente*) malloc(sizeof(Cliente));
 
     do{
         system("clear||cls");
@@ -260,7 +260,6 @@ void telaRemoverCliente(void){
         printf("                     Informe o CPF do cliente: ");
         scanf("%[0-9.-]", cpf);
         getchar();
-        printf("                     Cliente removido.");
          if(!checkCPF(cpf)){
             do{
                 printf("                       *CPF Invalido.\n");
@@ -274,6 +273,23 @@ void telaRemoverCliente(void){
             } while(!checkDigit(esc));
            
         } else {
+            file = fopen("clientes.dat", "r+b");
+            if (file == NULL){
+                printf("Ocorreu um erro ao ler o arquivo!");
+                exit(1);
+            }
+            while(!feof(file)){
+                fread(cl, sizeof(Cliente), 1, file);
+                if((strcmp(cl->cpf, cpf) == 0) && (cl->status != 'x')){
+                    cl->status = 'x';
+                    fseek(file,-1*sizeof(Cliente), SEEK_CUR);
+                    fwrite(cl, sizeof(Cliente), 1, file);
+                    printf("Cliente excluido!\n");
+                    break;
+                }
+            }
+            fclose(file);
+
             do{
                 printf("  ---------------------------------------------------------------------  \n");
                 printf("  |                       1. Remover outro cliente                    |  \n");
@@ -286,6 +302,5 @@ void telaRemoverCliente(void){
            
         }
     } while(esc != '0');
-    telaCliente();
 }
 

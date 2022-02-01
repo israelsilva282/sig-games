@@ -89,7 +89,7 @@ void telaAdicionarJogo(void){
         printf("                     Estilo de jogo: ");
         scanf(" %255[^\n]", jogo->estiloJogo);
         getchar();
-        file = fopen("jogos.dat", "rb");
+        file = fopen("jogos.dat", "r+b");
         if(file == NULL){
             printf("Criando um novo arquivo...\n");
             file = fopen("jogos.dat", "wb");
@@ -101,6 +101,7 @@ void telaAdicionarJogo(void){
             fseek(file, (-1)*sizeof(Jogo), SEEK_END); 
             novoid = jogo2->id + 1;
             fclose(file);
+            free(jogo2);
         }
         jogo->id = novoid;
         jogo->situacao = 'd';
@@ -130,11 +131,6 @@ void telaAdicionarJogo(void){
                 printf("Ocorreu um erro com a criação do arquivo!");
                 exit(1);
             }
-            // file = fopen("jogos.dat", "r+b");
-            // if(file){
-            //     fread(jogo, sizeof(Jogo), 1, file);
-            //     fseek(file, -1*sizeof(Jogo), SEEK_END);
-            // }
             free(jogo);
             do{
                 printf("                     Jogo adicionado.\n");
@@ -148,7 +144,6 @@ void telaAdicionarJogo(void){
             } while (!checkDigit(esc));
         }
     } while(esc != '0');
-    telaJogo();
 }
 
 void telaPesquisarJogo(void){
@@ -218,17 +213,48 @@ void telaPesquisarJogo(void){
             }while(!checkDigit(esc));
         }
     }while (esc != '0');
-    telaJogo();
 }
 
 void telaListarJogos(void){
+    FILE* file;
+    Jogo* jogo;
+    jogo = (Jogo*) malloc(sizeof(Jogo));
+    char situacao[30];
     system("clear||cls");
     printf("  ---------------------------------------------------------------------  \n");
     printf("  |                      SIG-GAMES | Listar jogos                     |  \n");
     printf("  ---------------------------------------------------------------------  \n");
-    printf("                         1. jogo1\n");
-    printf("                         2. jogo2\n");
-    printf("                         3. jogo3\n");
+    
+    file = fopen("jogos.dat", "r+b");
+    if (file == NULL){
+        printf("Ocorreu um erro ao ler o arquivo!");
+        exit(1);
+
+    }
+    while(fread(jogo, sizeof(Jogo), 1, file)){
+        if(jogo->situacao != 'x'){
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("ID: %u\n", jogo->id);
+            printf("Nome: %s\n", jogo->nome);
+            printf("Sinopse: %s\n", jogo->sinopse);
+            printf("Data de lancamento: %d/%d/%d\n", jogo->diaLanc, jogo->mesLanc, jogo->anoLanc);
+            printf("Estilo de jogo: %s\n", jogo->estiloJogo);
+            if(jogo->situacao == 'd'){
+                strcpy(situacao, "Disponivel");
+            } else if (jogo->situacao == 'a'){
+                strcpy(situacao, "Alugado");
+            }else if (jogo->situacao == 'x'){
+                strcpy(situacao, "Excluido");
+            } else {
+                strcpy(situacao, "Nao informado");
+            }
+            printf("Situacao: %s\n", situacao);
+        }
+    }
+    fclose(file);
+    // printf("                         1. jogo1\n");
+    // printf("                         2. jogo2\n");
+    // printf("                         3. jogo3\n");
     printf("  ---------------------------------------------------------------------  \n");
     printf("  |                     Pressione enter para sair...                  |  \n");
     printf("  ---------------------------------------------------------------------  \n");
@@ -256,12 +282,14 @@ void telaEditarJogo(void){
         scanf("%c", &esc);
         getchar();
     }while (esc != '0');
-    telaJogo();
 }
 
 void telaRemoverJogo(void){
+    FILE* file;
+    Jogo* jogo;
     unsigned int id;
     char esc;
+    jogo = (Jogo*) malloc(sizeof(Jogo));
 
     do{
         system("clear||cls");
@@ -271,7 +299,26 @@ void telaRemoverJogo(void){
         printf("                     Informe o ID/Nome do jogo: ");
         scanf("%d", &id);
         getchar();
-        printf("                     Jogo removido.");
+
+        file = fopen("jogos.dat", "r+b");
+
+        if (file == NULL){
+            printf("Ocorreu um erro ao ler o arquivo!");
+            exit(1);
+        }
+
+        while(!feof(file)){
+            fread(jogo, sizeof(Jogo), 1, file);
+            if((jogo->id == id) && jogo->situacao != 'x'){
+                jogo->situacao = 'x';
+
+                fseek(file, -1*sizeof(Jogo), SEEK_CUR);
+                fwrite(jogo, sizeof(Jogo), 1, file);
+
+                printf("Jogo excluido!\n");
+                break;
+            }
+        }
 
         printf("  ---------------------------------------------------------------------  \n");
         printf("  |                       1. Remover outro jogo                       |  \n");
@@ -281,5 +328,4 @@ void telaRemoverJogo(void){
         scanf("%c", &esc);
         getchar();
     } while(esc != '0');
-    telaJogo();
 }
