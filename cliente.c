@@ -29,6 +29,7 @@ void telaCliente(void){
         printf("  |                        2. Pesquisar cliente                       |  \n");
         printf("  |                        3. Editar Cliente                          |  \n");
         printf("  |                        4. Remover Cliente                         |  \n");
+        printf("  |                        5. Listar Clientes                         |  \n");
         printf("  |                        0. Voltar                                  |  \n");
         printf("  ---------------------------------------------------------------------  \n");
         printf("                           Digite a opcao desejada: ");
@@ -48,6 +49,9 @@ void telaCliente(void){
             break;
         case '4':
             telaRemoverCliente();
+            break;
+        case '5':
+            telaListarCliente();
             break;
         case '0':
             break;
@@ -303,4 +307,44 @@ void telaRemoverCliente(void){
         }
     } while(esc != '0');
 }
+
+void telaListarCliente(void){
+    FILE* file;
+    Cliente* cl;
+    cl = (Cliente*) malloc(sizeof(Cliente));
+    char situacao[30];
+    system("clear||cls");
+    printf("  ---------------------------------------------------------------------  \n");
+    printf("  |                      SIG-GAMES | Listar clientes                  |  \n");
+    printf("  ---------------------------------------------------------------------  \n");
+    
+    file = fopen("clientes.dat", "r+b");
+    if(file == NULL){
+        printf("Ocorreu um erro ao ler o arquivo!");
+        exit(1);
+    }
+    while(fread(cl, sizeof(Cliente), 1, file)){
+        printf("---------------------------------------------------------------------  \n");
+        printf("Nome: %s\n", cl->nome);
+        printf("CPF: %s\n", cl->cpf);
+        printf("Data de nascimento: %d/%d/%d\n", cl->diaNasc, cl->mesNasc, cl->anoNasc);
+        printf("Endereco: %s\n", cl->endereco);
+        printf("Email: %s\n", cl->email);
+        if(cl->status == 'c'){
+            strcpy(situacao, "Cadastrado");
+        } else if (cl->status == 'x'){
+            strcpy(situacao, "Excluido");
+        }else {
+            strcpy(situacao, "Nao informado");
+        }
+        printf("Situacao: %s\n", situacao);
+        
+    }
+    fclose(file);
+    printf("  ---------------------------------------------------------------------  \n");
+    printf("  |                     Pressione enter para sair...                  |  \n");
+    printf("  ---------------------------------------------------------------------  \n");
+    getchar();
+}
+
 

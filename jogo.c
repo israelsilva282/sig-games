@@ -232,24 +232,22 @@ void telaListarJogos(void){
 
     }
     while(fread(jogo, sizeof(Jogo), 1, file)){
-        if(jogo->situacao != 'x'){
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("ID: %u\n", jogo->id);
-            printf("Nome: %s\n", jogo->nome);
-            printf("Sinopse: %s\n", jogo->sinopse);
-            printf("Data de lancamento: %d/%d/%d\n", jogo->diaLanc, jogo->mesLanc, jogo->anoLanc);
-            printf("Estilo de jogo: %s\n", jogo->estiloJogo);
-            if(jogo->situacao == 'd'){
-                strcpy(situacao, "Disponivel");
-            } else if (jogo->situacao == 'a'){
-                strcpy(situacao, "Alugado");
-            }else if (jogo->situacao == 'x'){
-                strcpy(situacao, "Excluido");
-            } else {
-                strcpy(situacao, "Nao informado");
-            }
-            printf("Situacao: %s\n", situacao);
+        printf("---------------------------------------------------------------------  \n");
+        printf("ID: %u\n", jogo->id);
+        printf("Nome: %s\n", jogo->nome);
+        printf("Sinopse: %s\n", jogo->sinopse);
+        printf("Data de lancamento: %d/%d/%d\n", jogo->diaLanc, jogo->mesLanc, jogo->anoLanc);
+        printf("Estilo de jogo: %s\n", jogo->estiloJogo);
+        if(jogo->situacao == 'd'){
+            strcpy(situacao, "Disponivel");
+        } else if (jogo->situacao == 'a'){
+            strcpy(situacao, "Alugado");
+        }else if (jogo->situacao == 'x'){
+            strcpy(situacao, "Excluido");
+        } else {
+            strcpy(situacao, "Nao informado");
         }
+        printf("Situacao: %s\n", situacao);
     }
     fclose(file);
     // printf("                         1. jogo1\n");

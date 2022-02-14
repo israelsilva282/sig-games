@@ -29,6 +29,7 @@ void telaFuncionario(void){
     printf("  |                     2. Pesquisar Funcionario                      |  \n");
     printf("  |                     3. Editar Funcionario                         |  \n");
     printf("  |                     4. Remover Funcionario                        |  \n");
+    printf("  |                     4. Listar Funcionario                         |  \n");
     printf("  |                     0. Voltar                                     |  \n");
     printf("  ---------------------------------------------------------------------  \n");
     printf("                     Digite a opcao desejada: ");
@@ -46,6 +47,9 @@ void telaFuncionario(void){
             break;
         case '4':
             telaRemoverFuncionario();
+            break;
+        case '5':
+            telaListarFuncionario();
             break;
         case '0':
             break;
@@ -306,4 +310,43 @@ void telaRemoverFuncionario(void){
             } while(!checkDigit(esc));
         }
     }while(esc != '0');
+}
+void telaListarFuncionario(void){
+    FILE* file;
+    Funcionario* fun;
+    fun = (Funcionario*) malloc(sizeof(Funcionario));
+    char situacao[30];
+    system("clear||cls");
+    printf("  ---------------------------------------------------------------------  \n");
+    printf("  |                  SIG-GAMES | Listar Funcionarios                  |  \n");
+    printf("  ---------------------------------------------------------------------  \n");
+    
+    file = fopen("funcionarios.dat", "r+b");
+    if(file == NULL){
+        printf("Ocorreu um erro ao ler o arquivo!");
+        exit(1);
+    }
+    while(fread(fun, sizeof(Funcionario), 1, file)){
+        printf("---------------------------------------------------------------------  \n");
+        printf("Nome: %s\n", fun->nome);
+        printf("CPF: %s\n", fun->cpf);
+        printf("Cargo: %s\n", fun->cargo);
+        printf("Data de nascimento: %d/%d/%d\n", fun->diaNasc, fun->mesNasc, fun->anoNasc);
+        printf("Endereco: %s\n", fun->endereco);
+        printf("Email: %s\n", fun->email);
+        if(fun->status == 'c'){
+            strcpy(situacao, "Cadastrado");
+        } else if (fun->status == 'x'){
+            strcpy(situacao, "Excluido");
+        }else {
+            strcpy(situacao, "Nao informado");
+        }
+        printf("Situacao: %s\n", situacao);
+        
+    }
+    fclose(file);
+    printf("  ---------------------------------------------------------------------  \n");
+    printf("  |                     Pressione enter para sair...                  |  \n");
+    printf("  ---------------------------------------------------------------------  \n");
+    getchar();
 }
