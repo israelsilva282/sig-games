@@ -29,7 +29,7 @@ void telaFuncionario(void){
     printf("  |                     2. Pesquisar Funcionario                      |  \n");
     printf("  |                     3. Editar Funcionario                         |  \n");
     printf("  |                     4. Remover Funcionario                        |  \n");
-    printf("  |                     4. Listar Funcionario                         |  \n");
+    printf("  |                     5. Listar Funcionario                         |  \n");
     printf("  |                     0. Voltar                                     |  \n");
     printf("  ---------------------------------------------------------------------  \n");
     printf("                     Digite a opcao desejada: ");
@@ -316,17 +316,28 @@ void telaListarFuncionario(void){
     Funcionario* fun;
     fun = (Funcionario*) malloc(sizeof(Funcionario));
     char situacao[30];
+    char esc;
     system("clear||cls");
     printf("  ---------------------------------------------------------------------  \n");
     printf("  |                  SIG-GAMES | Listar Funcionarios                  |  \n");
     printf("  ---------------------------------------------------------------------  \n");
+    printf("  ---------------------------------------------------------------------  \n");
+    printf("  |                      1. Listar todos                              |  \n");
+    printf("  |                      2. Listar cadastrados                        |  \n");
+    printf("  ---------------------------------------------------------------------  \n");
+    printf("                     Digite a opcao desejada: ");
+    scanf("%c",&esc);
+    getchar();
+
     
     file = fopen("funcionarios.dat", "r+b");
     if(file == NULL){
         printf("Ocorreu um erro ao ler o arquivo!");
         exit(1);
     }
-    while(fread(fun, sizeof(Funcionario), 1, file)){
+
+    if (esc == '1'){
+        while(fread(fun, sizeof(Funcionario), 1, file)){
         printf("---------------------------------------------------------------------  \n");
         printf("Nome: %s\n", fun->nome);
         printf("CPF: %s\n", fun->cpf);
@@ -343,10 +354,35 @@ void telaListarFuncionario(void){
         }
         printf("Situacao: %s\n", situacao);
         
+        }
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("                   Pressione enter para sair...                       |  \n");
+        getchar();
+    } else if(esc == '2') {
+        if (fun->status != 'x'){
+            while(fread(fun, sizeof(Funcionario), 1, file)){
+                printf("---------------------------------------------------------------------  \n");
+                printf("Nome: %s\n", fun->nome);
+                printf("CPF: %s\n", fun->cpf);
+                printf("Cargo: %s\n", fun->cargo);
+                printf("Data de nascimento: %d/%d/%d\n", fun->diaNasc, fun->mesNasc, fun->anoNasc);
+                printf("Endereco: %s\n", fun->endereco);
+                printf("Email: %s\n", fun->email);
+                if(fun->status == 'c'){
+                strcpy(situacao, "Cadastrado");
+                }else {
+                    strcpy(situacao, "Nao informado");
+                }
+                printf("Situacao: %s\n", situacao);
+            }
+        } 
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                   Pressione enter para sair...                       |  \n");
+            getchar();
     }
     fclose(file);
-    printf("  ---------------------------------------------------------------------  \n");
-    printf("  |                     Pressione enter para sair...                  |  \n");
-    printf("  ---------------------------------------------------------------------  \n");
-    getchar();
+    // printf("  ---------------------------------------------------------------------  \n");
+    // printf("  |                     Pressione enter para sair...                  |  \n");
+    // printf("  ---------------------------------------------------------------------  \n");
+    // getchar();
 }

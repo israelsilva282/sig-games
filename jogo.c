@@ -220,43 +220,109 @@ void telaListarJogos(void){
     Jogo* jogo;
     jogo = (Jogo*) malloc(sizeof(Jogo));
     char situacao[30];
+    char esc;
+    char estilo[30];
     system("clear||cls");
     printf("  ---------------------------------------------------------------------  \n");
     printf("  |                      SIG-GAMES | Listar jogos                     |  \n");
     printf("  ---------------------------------------------------------------------  \n");
-    
+    printf("  ---------------------------------------------------------------------  \n");
+    printf("  |                      1. Listar todos                              |  \n");
+    printf("  |                      2. Listar cadastrados                        |  \n");
+    printf("  |                      3. Listar por estilo                         |  \n");
+    printf("  ---------------------------------------------------------------------  \n");
+    printf("                     Digite a opcao desejada: ");
+    scanf("%c",&esc);
+    getchar();
+
+
     file = fopen("jogos.dat", "r+b");
     if (file == NULL){
         printf("Ocorreu um erro ao ler o arquivo!");
         exit(1);
 
     }
-    while(fread(jogo, sizeof(Jogo), 1, file)){
-        printf("---------------------------------------------------------------------  \n");
-        printf("ID: %u\n", jogo->id);
-        printf("Nome: %s\n", jogo->nome);
-        printf("Sinopse: %s\n", jogo->sinopse);
-        printf("Data de lancamento: %d/%d/%d\n", jogo->diaLanc, jogo->mesLanc, jogo->anoLanc);
-        printf("Estilo de jogo: %s\n", jogo->estiloJogo);
-        if(jogo->situacao == 'd'){
-            strcpy(situacao, "Disponivel");
-        } else if (jogo->situacao == 'a'){
-            strcpy(situacao, "Alugado");
-        }else if (jogo->situacao == 'x'){
-            strcpy(situacao, "Excluido");
-        } else {
-            strcpy(situacao, "Nao informado");
+    if(esc == '1'){
+        while(fread(jogo, sizeof(Jogo), 1, file)){
+            printf("---------------------------------------------------------------------  \n");
+            printf("ID: %u\n", jogo->id);
+            printf("Nome: %s\n", jogo->nome);
+            printf("Sinopse: %s\n", jogo->sinopse);
+            printf("Data de lancamento: %d/%d/%d\n", jogo->diaLanc, jogo->mesLanc, jogo->anoLanc);
+            printf("Estilo de jogo: %s\n", jogo->estiloJogo);
+            if(jogo->situacao == 'd'){
+                strcpy(situacao, "Disponivel");
+            } else if (jogo->situacao == 'a'){
+                strcpy(situacao, "Alugado");
+            }else if (jogo->situacao == 'x'){
+                strcpy(situacao, "Excluido");
+            } else {
+                strcpy(situacao, "Nao informado");
+            }
+            printf("Situacao: %s\n", situacao);
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                   Pressione enter para sair...                       |  \n");
+            getchar();
         }
-        printf("Situacao: %s\n", situacao);
+    } else if(esc == '2'){
+        if (jogo->situacao != 'x'){
+            while(fread(jogo, sizeof(Jogo), 1, file)){
+                printf("---------------------------------------------------------------------  \n");
+                printf("ID: %u\n", jogo->id);
+                printf("Nome: %s\n", jogo->nome);
+                printf("Sinopse: %s\n", jogo->sinopse);
+                printf("Data de lancamento: %d/%d/%d\n", jogo->diaLanc, jogo->mesLanc, jogo->anoLanc);
+                printf("Estilo de jogo: %s\n", jogo->estiloJogo);
+                if(jogo->situacao == 'd'){
+                    strcpy(situacao, "Disponivel");
+                } else if (jogo->situacao == 'a'){
+                    strcpy(situacao, "Alugado");
+                }else {
+                    strcpy(situacao, "Nao informado");
+                }
+                printf("Situacao: %s\n", situacao);
+            }
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                   Pressione enter para sair...                       |  \n");
+            getchar();
+        }
+
+    } else if(esc == '3'){
+        printf("                     Informe o estilo do jogo: ");
+        scanf("%30[^\n]", estilo);
+        getchar();
+        printf(strcmp(jogo->estiloJogo, estilo));
+        if (strcmp(jogo->estiloJogo, estilo) == 0){
+            printf("teste");
+            while(fread(jogo, sizeof(Jogo), 1, file)){
+                printf("---------------------------------------------------------------------  \n");
+                printf("ID: %u\n", jogo->id);
+                printf("Nome: %s\n", jogo->nome);
+                printf("Sinopse: %s\n", jogo->sinopse);
+                printf("Data de lancamento: %d/%d/%d\n", jogo->diaLanc, jogo->mesLanc, jogo->anoLanc);
+                printf("Estilo de jogo: %s\n", jogo->estiloJogo);
+                if(jogo->situacao == 'd'){
+                    strcpy(situacao, "Disponivel");
+                } else if (jogo->situacao == 'a'){
+                    strcpy(situacao, "Alugado");
+                }else {
+                    strcpy(situacao, "Nao informado");
+                }
+                printf("Situacao: %s\n", situacao);
+            }
+        }
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("                   Pressione enter para sair...                       |  \n");
+        getchar();
     }
     fclose(file);
     // printf("                         1. jogo1\n");
     // printf("                         2. jogo2\n");
     // printf("                         3. jogo3\n");
-    printf("  ---------------------------------------------------------------------  \n");
-    printf("  |                     Pressione enter para sair...                  |  \n");
-    printf("  ---------------------------------------------------------------------  \n");
-    getchar();
+    // printf("  ---------------------------------------------------------------------  \n");
+    // printf("  |                     Pressione enter para sair...                  |  \n");
+    // printf("  ---------------------------------------------------------------------  \n");
+    // getchar();
 }
 
 void telaEditarJogo(void){
@@ -309,10 +375,8 @@ void telaRemoverJogo(void){
             fread(jogo, sizeof(Jogo), 1, file);
             if((jogo->id == id) && jogo->situacao != 'x'){
                 jogo->situacao = 'x';
-
                 fseek(file, -1*sizeof(Jogo), SEEK_CUR);
                 fwrite(jogo, sizeof(Jogo), 1, file);
-
                 printf("Jogo excluido!\n");
                 break;
             }

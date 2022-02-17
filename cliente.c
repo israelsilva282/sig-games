@@ -313,38 +313,71 @@ void telaListarCliente(void){
     Cliente* cl;
     cl = (Cliente*) malloc(sizeof(Cliente));
     char situacao[30];
+    char esc;
     system("clear||cls");
     printf("  ---------------------------------------------------------------------  \n");
     printf("  |                      SIG-GAMES | Listar clientes                  |  \n");
     printf("  ---------------------------------------------------------------------  \n");
-    
+    printf("  ---------------------------------------------------------------------  \n");
+    printf("  |                      1. Listar todos                              |  \n");
+    printf("  |                      2. Listar cadastrados                        |  \n");
+    printf("  ---------------------------------------------------------------------  \n");
+    printf("                     Digite a opcao desejada: ");
+    scanf("%c",&esc);
+    getchar();
+
     file = fopen("clientes.dat", "r+b");
     if(file == NULL){
         printf("Ocorreu um erro ao ler o arquivo!");
         exit(1);
     }
-    while(fread(cl, sizeof(Cliente), 1, file)){
-        printf("---------------------------------------------------------------------  \n");
-        printf("Nome: %s\n", cl->nome);
-        printf("CPF: %s\n", cl->cpf);
-        printf("Data de nascimento: %d/%d/%d\n", cl->diaNasc, cl->mesNasc, cl->anoNasc);
-        printf("Endereco: %s\n", cl->endereco);
-        printf("Email: %s\n", cl->email);
-        if(cl->status == 'c'){
-            strcpy(situacao, "Cadastrado");
-        } else if (cl->status == 'x'){
-            strcpy(situacao, "Excluido");
-        }else {
-            strcpy(situacao, "Nao informado");
+
+    if (esc == '1'){
+        while(fread(cl, sizeof(Cliente), 1, file)){
+            printf("---------------------------------------------------------------------  \n");
+            printf("Nome: %s\n", cl->nome);
+            printf("CPF: %s\n", cl->cpf);
+            printf("Data de nascimento: %d/%d/%d\n", cl->diaNasc, cl->mesNasc, cl->anoNasc);
+            printf("Endereco: %s\n", cl->endereco);
+            printf("Email: %s\n", cl->email);
+            if(cl->status == 'c'){
+                strcpy(situacao, "Cadastrado");
+            } else if (cl->status == 'x'){
+                strcpy(situacao, "Excluido");
+            }else {
+                strcpy(situacao, "Nao informado");
+            }
+            printf("Situacao: %s\n", situacao);
         }
-        printf("Situacao: %s\n", situacao);
-        
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("                   Pressione enter para sair...                       |  \n");
+        getchar();
+    } else if (esc == '2'){
+        while(fread(cl, sizeof(Cliente), 1, file)){
+            if(cl->status != 'x'){
+                printf("---------------------------------------------------------------------  \n");
+                printf("Nome: %s\n", cl->nome);
+                printf("CPF: %s\n", cl->cpf);
+                printf("Data de nascimento: %d/%d/%d\n", cl->diaNasc, cl->mesNasc, cl->anoNasc);
+                printf("Endereco: %s\n", cl->endereco);
+                printf("Email: %s\n", cl->email);
+                if(cl->status == 'c'){
+                strcpy(situacao, "Cadastrado"); 
+                }else {
+                    strcpy(situacao, "Nao informado");
+                }
+                printf("Situacao: %s\n", situacao);
+            }
+        }
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("                   Pressione enter para sair...                       |  \n");
+        getchar();
     }
     fclose(file);
-    printf("  ---------------------------------------------------------------------  \n");
-    printf("  |                     Pressione enter para sair...                  |  \n");
-    printf("  ---------------------------------------------------------------------  \n");
-    getchar();
+    // printf("  ---------------------------------------------------------------------  \n");
+    // printf("  |                     Pressione enter para sair...                  |  \n");
+    // printf("  ---------------------------------------------------------------------  \n");
+    // getchar();
 }
 
 
