@@ -363,8 +363,6 @@ void telaListarCliente(void){
                 printf("Email: %s\n", cl->email);
                 if(cl->status == 'c'){
                 strcpy(situacao, "Cadastrado"); 
-                }else {
-                    strcpy(situacao, "Nao informado");
                 }
                 printf("Situacao: %s\n", situacao);
             }

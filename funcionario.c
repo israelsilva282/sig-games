@@ -338,29 +338,29 @@ void telaListarFuncionario(void){
 
     if (esc == '1'){
         while(fread(fun, sizeof(Funcionario), 1, file)){
-        printf("---------------------------------------------------------------------  \n");
-        printf("Nome: %s\n", fun->nome);
-        printf("CPF: %s\n", fun->cpf);
-        printf("Cargo: %s\n", fun->cargo);
-        printf("Data de nascimento: %d/%d/%d\n", fun->diaNasc, fun->mesNasc, fun->anoNasc);
-        printf("Endereco: %s\n", fun->endereco);
-        printf("Email: %s\n", fun->email);
-        if(fun->status == 'c'){
-            strcpy(situacao, "Cadastrado");
-        } else if (fun->status == 'x'){
-            strcpy(situacao, "Excluido");
-        }else {
-            strcpy(situacao, "Nao informado");
-        }
-        printf("Situacao: %s\n", situacao);
-        
-        }
-        printf("  ---------------------------------------------------------------------  \n");
-        printf("                   Pressione enter para sair...                       |  \n");
-        getchar();
+            printf("---------------------------------------------------------------------  \n");
+            printf("Nome: %s\n", fun->nome);
+            printf("CPF: %s\n", fun->cpf);
+            printf("Cargo: %s\n", fun->cargo);
+            printf("Data de nascimento: %d/%d/%d\n", fun->diaNasc, fun->mesNasc, fun->anoNasc);
+            printf("Endereco: %s\n", fun->endereco);
+            printf("Email: %s\n", fun->email);
+            if(fun->status == 'c'){
+                strcpy(situacao, "Cadastrado");
+            } else if (fun->status == 'x'){
+                strcpy(situacao, "Excluido");
+            }else {
+                strcpy(situacao, "Nao informado");
+            }
+            printf("Situacao: %s\n", situacao);
+            
+            }
+            printf("  ---------------------------------------------------------------------  \n");
+            printf("                   Pressione enter para sair...                       |  \n");
+            getchar();
     } else if(esc == '2') {
-        if (fun->status != 'x'){
-            while(fread(fun, sizeof(Funcionario), 1, file)){
+        while(fread(fun, sizeof(Funcionario), 1, file)){
+            if (fun->status != 'x'){
                 printf("---------------------------------------------------------------------  \n");
                 printf("Nome: %s\n", fun->nome);
                 printf("CPF: %s\n", fun->cpf);
@@ -370,8 +370,6 @@ void telaListarFuncionario(void){
                 printf("Email: %s\n", fun->email);
                 if(fun->status == 'c'){
                 strcpy(situacao, "Cadastrado");
-                }else {
-                    strcpy(situacao, "Nao informado");
                 }
                 printf("Situacao: %s\n", situacao);
             }

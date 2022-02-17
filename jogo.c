@@ -259,11 +259,12 @@ void telaListarJogos(void){
             } else {
                 strcpy(situacao, "Nao informado");
             }
-            printf("Situacao: %s\n", situacao);
-            printf("  ---------------------------------------------------------------------  \n");
-            printf("                   Pressione enter para sair...                       |  \n");
-            getchar();
+            
         }
+        printf("Situacao: %s\n", situacao);
+        printf("  ---------------------------------------------------------------------  \n");
+        printf("                   Pressione enter para sair...                       |  \n");
+        getchar();
     } else if(esc == '2'){
         if (jogo->situacao != 'x'){
             while(fread(jogo, sizeof(Jogo), 1, file)){
@@ -291,7 +292,6 @@ void telaListarJogos(void){
         printf("                     Informe o estilo do jogo: ");
         scanf("%30[^\n]", estilo);
         getchar();
-        printf(strcmp(jogo->estiloJogo, estilo));
         if (strcmp(jogo->estiloJogo, estilo) == 0){
             printf("teste");
             while(fread(jogo, sizeof(Jogo), 1, file)){
@@ -381,6 +381,7 @@ void telaRemoverJogo(void){
                 break;
             }
         }
+        fclose(file);
 
         printf("  ---------------------------------------------------------------------  \n");
         printf("  |                       1. Remover outro jogo                       |  \n");
