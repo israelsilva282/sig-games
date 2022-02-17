@@ -96,9 +96,8 @@ void telaAdicionarJogo(void){
             novoid = 1;
             fclose(file);
         }else{  
-            fread(jogo2, sizeof(Jogo), 1, file);
-
             fseek(file, (-1)*sizeof(Jogo), SEEK_END); 
+            fread(jogo2, sizeof(Jogo), 1, file);
             novoid = jogo2->id + 1;
             fclose(file);
             free(jogo2);
@@ -259,9 +258,9 @@ void telaListarJogos(void){
             } else {
                 strcpy(situacao, "Nao informado");
             }
-            
+            printf("Situacao: %s\n", situacao);
         }
-        printf("Situacao: %s\n", situacao);
+
         printf("  ---------------------------------------------------------------------  \n");
         printf("                   Pressione enter para sair...                       |  \n");
         getchar();

@@ -190,7 +190,6 @@ void telaPesquisarCliente(void){
                         strcpy(situacao, "Nao informado");
                     }
                     printf("Situacao: %s\n", situacao);
-                    fclose(file);
                     break;
                 }
             }
